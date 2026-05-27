@@ -642,6 +642,24 @@
   .slide-5 .url-text span {
     color: #fff;
   }
+
+  /* ─── Single-slide capture mode (?slide=N) ─────────────────── */
+  body.capture-mode {
+    background: #000;
+    display: block;
+    padding: 0;
+    gap: 0;
+  }
+  body.capture-mode .slide-wrapper { display: none; }
+  body.capture-mode .slide-wrapper.active {
+    display: block;
+    width: 360px;
+    height: 640px;
+  }
+  body.capture-mode .label { display: none; }
+  body.capture-mode .slide {
+    border-radius: 0;
+  }
 </style>
 </head>
 <body>
@@ -834,5 +852,18 @@
   </div>
 </div>
 
+<script>
+  // ?slide=N — isolates one slide for screenshotting.
+  // Navigate to e.g. /templates/instagram-reel?slide=1 then screenshot.
+  const n = new URLSearchParams(location.search).get('slide');
+  if (n) {
+    const idx = parseInt(n, 10);
+    document.body.classList.add('capture-mode');
+    const wrappers = document.querySelectorAll('.slide-wrapper');
+    wrappers.forEach((el, i) => {
+      if (i + 1 === idx) el.classList.add('active');
+    });
+  }
+</script>
 </body>
 </html>
