@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blocksmith — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ─── Blocksmith tokens ────────────────────────────────────────── */
+  :root {
+    /* Palette */
+    --amber:           oklch(57% 0.18 42);
+    --amber-10:        oklch(57% 0.18 42 / 0.10);
+    --amber-20:        oklch(57% 0.18 42 / 0.20);
+    --destructive:     oklch(57.7% 0.245 27.3);
+    --destructive-10:  oklch(57.7% 0.245 27.3 / 0.10);
+    --destructive-25:  oklch(57.7% 0.245 27.3 / 0.25);
+    --recovery:        #047857;
+    --recovery-10:     rgba(4, 120, 87, 0.10);
+    --recovery-25:     rgba(4, 120, 87, 0.25);
+
+    /* Session types */
+    --session-run:         #1D4ED8;
+    --session-run-bg:      #DBEAFE;
+    --session-strength:    #B91C1C;
+    --session-strength-bg: #FEE2E2;
+    --session-se:          #B45309;
+    --session-se-bg:       #FEF3C7;
+    --session-combo:       #C2410C;
+    --session-combo-bg:    #FFEDD5;
+    --session-recovery:    #047857;
+    --session-recovery-bg: #D1FAE5;
+
+    /* Surface */
+    --bg:       oklch(97.8% 0.004 90);
+    --card:     oklch(100% 0 0);
+    --fg:       oklch(14% 0 0);
+    --muted:    oklch(46% 0 0);
+    --border:   oklch(90% 0.005 90);
+
+    /* Dark equivalents */
+    --bg-dark:     oklch(14% 0 0);
+    --card-dark:   oklch(18% 0 0);
+    --fg-dark:     oklch(98% 0 0);
+    --muted-dark:  oklch(60% 0 0);
+    --border-dark: oklch(100% 0 0 / 10%);
+
+    /* Type */
+    --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'DM Mono', ui-monospace, 'SF Mono', monospace;
+
+    /* Radius */
+    --r-sm: 6px;
+    --r-md: 8px;
+    --r-lg: 12px;
+    --r-xl: 16px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+  }
+
+  /* ─── Layout ───────────────────────────────────────────────────── */
+  .page-header {
+    background: var(--fg);
+    color: var(--fg-dark);
+    padding: 48px 64px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .page-header h1 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-dark);
+    margin-bottom: 8px;
+  }
+
+  .page-header .title {
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--fg-dark);
+  }
+
+  .page-header .title span { color: var(--amber); }
+
+  .page-header .nav {
+    display: flex;
+    gap: 24px;
+    font-size: 13px;
+    font-weight: 500;
+    padding-bottom: 4px;
+  }
+
+  .page-header .nav a {
+    color: var(--muted-dark);
+    text-decoration: none;
+    transition: color 150ms;
+  }
+
+  .page-header .nav a:hover { color: var(--fg-dark); }
+
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 40px 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ─── Colour section ───────────────────────────────────────────── */
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .swatch {
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .swatch-color {
+    height: 80px;
+  }
+
+  .swatch-info {
+    padding: 10px 12px;
+    background: var(--card);
+  }
+
+  .swatch-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  .swatch-value {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .swatch-use {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* Session badges strip */
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .badge {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    padding: 4px 10px;
+  }
+
+  /* ─── Typography section ───────────────────────────────────────── */
+  .type-specimens {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .type-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    align-items: baseline;
+  }
+
+  .type-meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.6;
+    padding-top: 4px;
+  }
+
+  .type-meta strong {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--fg);
+    margin-bottom: 2px;
+  }
+
+  .specimen-display {
+    font-size: clamp(44px, 7vw, 72px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    color: var(--fg);
+  }
+
+  .specimen-h1 {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+  }
+
+  .specimen-h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  .specimen-h3 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+  }
+
+  .specimen-body {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--fg);
+    max-width: 65ch;
+  }
+
+  .specimen-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .specimen-mono {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--fg);
+  }
+
+  .specimen-data {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+  }
+
+  /* ─── Components section ───────────────────────────────────────── */
+  .component-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .component-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+    padding: 28px;
+  }
+
+  .component-card-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  /* Buttons */
+  .btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  .btn {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--r-md);
+    padding: 9px 18px;
+    cursor: pointer;
+    border: none;
+    transition: opacity 120ms;
+  }
+
+  .btn:hover { opacity: 0.88; }
+  .btn:active { transform: translateY(1px); }
+
+  .btn-primary   { background: var(--amber); color: #fff; }
+  .btn-secondary { background: var(--amber-10); color: var(--amber); border: 1px solid var(--amber-20); }
+  .btn-ghost     { background: transparent; color: var(--fg); border: 1px solid var(--border); }
+  .btn-danger    { background: var(--destructive); color: #fff; }
+  .btn-sm        { font-size: 12px; padding: 6px 12px; border-radius: var(--r-sm); }
+
+  /* Form inputs */
+  .input-group { display: flex; flex-direction: column; gap: 6px; }
+  .input-label { font-size: 13px; font-weight: 600; color: var(--fg); }
+
+  .input {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--fg);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 9px 12px;
+    outline: none;
+    transition: border-color 120ms, box-shadow 120ms;
+  }
+
+  .input:focus {
+    border-color: var(--amber);
+    box-shadow: 0 0 0 3px var(--amber-10);
+  }
+
+  .input-helper { font-size: 12px; color: var(--muted); }
+  .input-error  { font-size: 12px; color: var(--destructive); }
+
+  /* Metric cards */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .metric {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 14px 16px;
+  }
+
+  .metric-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .metric-value {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    line-height: 1.1;
+  }
+
+  .metric-value.amber { color: var(--amber); }
+
+  .metric-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* Alert / banner */
+  .alert {
+    border-radius: var(--r-md);
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .alert-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .alert-warning {
+    background: var(--amber-10);
+    border: 1px solid var(--amber-20);
+    color: oklch(42% 0.14 42);
+  }
+
+  .alert-error {
+    background: var(--destructive-10);
+    border: 1px solid var(--destructive-25);
+    color: var(--destructive);
+  }
+
+  .alert-success {
+    background: var(--recovery-10);
+    border: 1px solid var(--recovery-25);
+    color: var(--recovery);
+  }
+
+  /* ─── Dark surfaces preview ────────────────────────────────────── */
+  .dark-preview {
+    background: var(--bg-dark);
+    border-radius: var(--r-xl);
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .dark-card {
+    background: var(--card-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--r-lg);
+    padding: 20px;
+  }
+
+  .dark-card .metric-label { color: var(--muted-dark); }
+  .dark-card .metric-value { color: var(--fg-dark); }
+
+  .amber-accent-bar {
+    height: 3px;
+    background: var(--amber);
+    border-radius: 99px;
+    margin-bottom: 16px;
+    width: 40px;
+  }
+
+  /* ─── Rules section ────────────────────────────────────────────── */
+  .rules {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .rule {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 16px 18px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .rule strong { font-weight: 700; display: block; margin-bottom: 4px; }
+  .rule.do { border-left: 3px solid var(--recovery); }
+  .rule.dont { border-left: 3px solid var(--destructive); }
+
+  .rule.do strong { color: var(--recovery); }
+  .rule.dont strong { color: var(--destructive); }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: oklch(93% 0.005 90);
+    border-radius: 3px;
+    padding: 1px 5px;
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div>
+    <h1>Blocksmith</h1>
+    <div class="title">Design <span>System</span></div>
+  </div>
+  <nav class="nav">
+    <a href="/">Home</a>
+    <a href="/design-system">Design System</a>
+    <a href="/templates/instagram-reel">Reel Template</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ─── Colour ─────────────────────────────────────────────────── -->
+  <section>
+    <div class="section-label">Colour</div>
+    <div class="swatch-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background: oklch(57% 0.18 42);"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Amber (Primary)</div>
+          <div class="swatch-value">oklch(57% 0.18 42)</div>
+          <div class="swatch-use">Buttons, links, highlights, brand moments</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: oklch(57.7% 0.245 27.3);"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Destructive</div>
+          <div class="swatch-value">oklch(57.7% 0.245 27.3)</div>
+          <div class="swatch-use">Errors, warnings, problems, "before" states</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #047857;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Recovery Green</div>
+          <div class="swatch-value">#047857</div>
+          <div class="swatch-use">Success, "after" states, recovery sessions</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: oklch(97.8% 0.004 90); border-bottom: 1px solid oklch(90% 0.005 90);"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Background</div>
+          <div class="swatch-value">oklch(97.8% 0.004 90)</div>
+          <div class="swatch-use">Warm off-white. Page background.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: oklch(14% 0 0);"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Foreground / Dark BG</div>
+          <div class="swatch-value">oklch(14% 0 0)</div>
+          <div class="swatch-use">Body text, dark surfaces</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: oklch(46% 0 0);"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Muted</div>
+          <div class="swatch-value">oklch(46% 0 0)</div>
+          <div class="swatch-use">Labels, helper text, secondary content</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top: 40px;">Session Type Colours</div>
+    <div class="badge-row">
+      <span class="badge" style="background: var(--session-run-bg); color: var(--session-run);">Run</span>
+      <span class="badge" style="background: var(--session-strength-bg); color: var(--session-strength);">Strength</span>
+      <span class="badge" style="background: var(--session-se-bg); color: var(--session-se);">SE</span>
+      <span class="badge" style="background: var(--session-combo-bg); color: var(--session-combo);">Combo</span>
+      <span class="badge" style="background: var(--session-recovery-bg); color: var(--session-recovery);">Recovery</span>
+    </div>
+    <div style="margin-top: 12px; font-size: 12px; color: var(--muted); font-family: var(--font-mono);">
+      Run: #1D4ED8 / #DBEAFE &nbsp;·&nbsp; Strength: #B91C1C / #FEE2E2 &nbsp;·&nbsp; SE: #B45309 / #FEF3C7 &nbsp;·&nbsp; Combo: #C2410C / #FFEDD5 &nbsp;·&nbsp; Recovery: #047857 / #D1FAE5
+    </div>
+  </section>
+
+  <!-- ─── Typography ──────────────────────────────────────────────── -->
+  <section>
+    <div class="section-label">Typography</div>
+    <div style="margin-bottom: 24px; font-size: 13px; color: var(--muted);">
+      <strong style="color: var(--fg);">DM Sans</strong> for all UI text &nbsp;·&nbsp;
+      <strong style="color: var(--fg);">DM Mono</strong> for data, metrics, and code &nbsp;·&nbsp;
+      Never use Inter, Roboto, or system fonts.
+    </div>
+    <div class="type-specimens">
+      <div class="type-row">
+        <div class="type-meta"><strong>Display</strong>44–72px / 800<br>tracking: −0.04em</div>
+        <div class="specimen-display">Train smarter.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><strong>H1</strong>32–48px / 800<br>tracking: −0.035em</div>
+        <div class="specimen-h1">Your HYROX race plan</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><strong>H2</strong>24px / 700<br>tracking: −0.025em</div>
+        <div class="specimen-h2">Week 3 — Peak Phase</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><strong>H3</strong>18px / 600<br>tracking: −0.015em</div>
+        <div class="specimen-h3">Tuesday: Ski Erg + Run intervals</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><strong>Body</strong>16px / 400<br>line-height: 1.65</div>
+        <div class="specimen-body">Blocksmith analyses your previous race splits and builds a personalised plan that targets your weakest stations while protecting your strengths.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><strong>Label</strong>11px / 700<br>uppercase / +0.08em</div>
+        <div class="specimen-label">Training Phase · Week 3 of 8</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><strong>Data</strong>DM Mono / 600<br>metrics + times</div>
+        <div class="specimen-data">17:23 &nbsp;·&nbsp; 4:22/km &nbsp;·&nbsp; 1500m</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Components ──────────────────────────────────────────────── -->
+  <section>
+    <div class="section-label">Components</div>
+    <div class="component-grid">
+
+      <!-- Buttons -->
+      <div class="component-card">
+        <div class="component-card-label">Buttons</div>
+        <div class="btn-row">
+          <button class="btn btn-primary">Start training</button>
+          <button class="btn btn-secondary">View plan</button>
+          <button class="btn btn-ghost">Cancel</button>
+        </div>
+        <div class="btn-row" style="margin-top: 10px;">
+          <button class="btn btn-danger">Delete session</button>
+          <button class="btn btn-primary btn-sm">Log session</button>
+          <button class="btn btn-ghost btn-sm">Edit</button>
+        </div>
+        <div style="margin-top: 16px; font-size: 11px; color: var(--muted); font-family: var(--font-mono); line-height: 1.8;">
+          primary: amber bg / white text<br>
+          secondary: amber-10 bg / amber text<br>
+          ghost: transparent / border<br>
+          danger: destructive bg / white text
+        </div>
+      </div>
+
+      <!-- Inputs -->
+      <div class="component-card">
+        <div class="component-card-label">Form Inputs</div>
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div class="input-group">
+            <label class="input-label">Race time (mm:ss)</label>
+            <input class="input" type="text" value="17:23" placeholder="e.g. 17:23">
+            <span class="input-helper">Your last HYROX finish time</span>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Target time</label>
+            <input class="input" type="text" placeholder="e.g. 15:53" style="border-color: var(--destructive); box-shadow: 0 0 0 3px var(--destructive-10);">
+            <span class="input-error">Must be faster than current time</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metrics -->
+      <div class="component-card">
+        <div class="component-card-label">Metric Cards</div>
+        <div class="metric-grid">
+          <div class="metric">
+            <div class="metric-label">Finish time</div>
+            <div class="metric-value">17:23</div>
+            <div class="metric-sub">Last race</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Target</div>
+            <div class="metric-value amber">15:53</div>
+            <div class="metric-sub">−1:30 goal</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Ski Erg split</div>
+            <div class="metric-value">3:12</div>
+            <div class="metric-sub">per 1000m</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Run pace</div>
+            <div class="metric-value">4:22</div>
+            <div class="metric-sub">per km</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alerts -->
+      <div class="component-card">
+        <div class="component-card-label">Alerts &amp; Banners</div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div class="alert alert-warning">
+            <svg class="alert-icon" viewBox="0 0 16 16" fill="none"><path d="M8 6v3M8 11h.01M2.93 13h10.14c1.02 0 1.66-1.1 1.15-1.98L9.15 3.02a1.33 1.33 0 00-2.3 0L1.78 11.02C1.27 11.9 1.91 13 2.93 13z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            Your Ski Erg splits are 8% off pace. Consider adding intervals.
+          </div>
+          <div class="alert alert-error">
+            <svg class="alert-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3.5M8 10.5h.01" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            Race data could not be parsed. Check your input format.
+          </div>
+          <div class="alert alert-success">
+            <svg class="alert-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 8l2.5 2.5L11 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Plan generated. 8 weeks to race day.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── Dark surfaces ───────────────────────────────────────────── -->
+  <section>
+    <div class="section-label">Dark Surfaces</div>
+    <div class="dark-preview">
+      <div class="dark-card">
+        <div class="amber-accent-bar"></div>
+        <div class="metric-label">Current block</div>
+        <div class="metric-value" style="color: oklch(98% 0 0); font-family: var(--font-mono); font-size: 18px; margin-top: 4px;">Peak — Week 3</div>
+        <div class="metric-sub" style="color: oklch(60% 0 0); margin-top: 6px;">5 sessions remaining</div>
+      </div>
+      <div class="dark-card">
+        <div class="amber-accent-bar" style="background: var(--recovery);"></div>
+        <div class="metric-label">Next session</div>
+        <div class="metric-value" style="color: oklch(98% 0 0); font-family: var(--font-mono); font-size: 18px; margin-top: 4px;">Recovery run</div>
+        <div class="metric-sub" style="color: oklch(60% 0 0); margin-top: 6px;">Tomorrow · 45 min</div>
+      </div>
+      <div class="dark-card">
+        <div class="metric-label">Target finish</div>
+        <div style="font-family: var(--font-mono); font-size: 32px; font-weight: 600; color: var(--amber); letter-spacing: -0.02em; margin-top: 4px;">15:53</div>
+        <div class="metric-sub" style="color: oklch(60% 0 0); margin-top: 4px;">−1:30 from PB</div>
+      </div>
+      <div class="dark-card">
+        <div class="metric-label">Completion</div>
+        <div style="font-family: var(--font-mono); font-size: 32px; font-weight: 600; color: oklch(98% 0 0); letter-spacing: -0.02em; margin-top: 4px;">68%</div>
+        <div style="margin-top: 10px; height: 4px; background: oklch(100% 0 0 / 10%); border-radius: 99px; overflow: hidden;">
+          <div style="width: 68%; height: 100%; background: var(--amber); border-radius: 99px;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Rules ───────────────────────────────────────────────────── -->
+  <section>
+    <div class="section-label">Rules for Adsy</div>
+    <div class="rules">
+      <div class="rule do"><strong>Do — Fonts</strong>Always use DM Sans and DM Mono. Load from Google Fonts.</div>
+      <div class="rule dont"><strong>Don't — Fonts</strong>Never use Inter, Roboto, Arial, or system fonts.</div>
+      <div class="rule do"><strong>Do — Colours</strong>Use the OKLCH tokens above. <code>var(--amber)</code>, <code>var(--destructive)</code>, <code>var(--recovery)</code>.</div>
+      <div class="rule dont"><strong>Don't — Colours</strong>Never use raw Tailwind colours like <code>amber-500</code>, <code>red-600</code>, <code>green-700</code>.</div>
+      <div class="rule do"><strong>Do — Success states</strong>Use recovery green <code>#047857</code> for "after", "done", "improvement".</div>
+      <div class="rule dont"><strong>Don't — Success states</strong>Never use <code>#00FF00</code> or bright lime for success. It's not in the system.</div>
+      <div class="rule do"><strong>Do — Brand moments</strong>Use amber for CTAs, brand highlights, and wins.</div>
+      <div class="rule dont"><strong>Don't — Brand moments</strong>Don't use white or generic grey for the primary CTA.</div>
+      <div class="rule do"><strong>Do — Data</strong>Use DM Mono for all times, distances, paces, and numbers.</div>
+      <div class="rule dont"><strong>Don't — Data</strong>Don't render race times in DM Sans. Data is always monospace.</div>
+      <div class="rule do"><strong>Do — Instagram content</strong>Push HTML files to <code>canvas/</code>. Screenshot via Browserbase at 1080×1920 (reel) or 1080×1080 (feed).</div>
+      <div class="rule dont"><strong>Don't — Instagram content</strong>Don't invent new colours or fonts for social content. The brand travels with it.</div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

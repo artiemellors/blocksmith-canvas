@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blocksmith — Hyrox Reel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  /* ─── Blocksmith design tokens ─────────────────────────────── */
+  :root {
+    --bs-amber:       oklch(57% 0.18 42);
+    --bs-destructive: oklch(57.7% 0.245 27.3);
+    --bs-recovery:    #047857;
+    --bs-recovery-bg: rgba(4, 120, 87, 0.10);
+    --bs-recovery-border: rgba(4, 120, 87, 0.28);
+    --bs-destruct-bg: oklch(57.7% 0.245 27.3 / 0.09);
+    --bs-destruct-border: oklch(57.7% 0.245 27.3 / 0.28);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 20px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .label {
+    color: #666;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .slide-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Each slide: 1080×1920 scaled to 360×640 for preview */
+  .slide {
+    width: 360px;
+    height: 640px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  /* ─── SLIDE 1: Hook ─────────────────────────────────────────── */
+  .slide-1 {
+    background: #000;
+  }
+
+  .slide-1 .bg-video {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, #1a1a1a 0%, #0a0a0a 60%, oklch(12% 0.04 27.3) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slide-1 .bg-video::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 40%, oklch(57.7% 0.245 27.3 / 0.22) 0%, transparent 70%),
+      linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+  }
+
+  .slide-1 .athlete-silhouette {
+    width: 220px;
+    height: 320px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .slide-1 .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.42);
+    z-index: 2;
+  }
+
+  .slide-1 .content {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+  }
+
+  .slide-1 .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--bs-destructive);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .slide-1 .headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    line-height: 0.92;
+    color: #fff;
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .slide-1 .headline .highlight {
+    color: var(--bs-destructive);
+    display: block;
+  }
+
+  .slide-1 .red-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: var(--bs-destructive);
+  }
+
+  /* ─── SLIDE 2: Problem ──────────────────────────────────────── */
+  .slide-2 {
+    background: #0a0a0a;
+  }
+
+  .slide-2 .split {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .slide-2 .split-left {
+    background: linear-gradient(135deg, oklch(12% 0.04 27.3) 0%, oklch(8% 0.02 27.3) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--bs-destruct-border);
+  }
+
+  .slide-2 .split-right {
+    background: linear-gradient(135deg, #0a0a0a 0%, #111 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slide-2 .mock-athlete {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px 16px;
+  }
+
+  .slide-2 .pace-block {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 24px 16px;
+    gap: 12px;
+  }
+
+  .slide-2 .pace-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #555;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .slide-2 .pace-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .slide-2 .pace-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .slide-2 .pace-diff {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--bs-destructive);
+  }
+
+  .slide-2 .arrow-block {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .slide-2 .diag-arrow {
+    width: 32px;
+    height: 2px;
+    background: var(--bs-destructive);
+    transform: rotate(-25deg);
+    transform-origin: left center;
+    position: relative;
+  }
+
+  .slide-2 .diag-arrow::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: -4px;
+    border-left: 8px solid var(--bs-destructive);
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    transform: rotate(25deg);
+  }
+
+  .slide-2 .overlay-text {
+    position: absolute;
+    bottom: 48px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 10;
+    padding: 0 24px;
+  }
+
+  .slide-2 .main-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: #fff;
+    line-height: 0.95;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+  }
+
+  .slide-2 .main-text .red { color: var(--bs-destructive); }
+
+  .slide-2 .red-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--bs-destructive);
+  }
+
+  /* Mock runner svg */
+  .runner-icon {
+    opacity: 0.6;
+  }
+
+  /* ─── SLIDE 3: Solution ─────────────────────────────────────── */
+  .slide-3 {
+    background: #000;
+  }
+
+  .slide-3 .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  .slide-3 .content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 28px;
+    gap: 24px;
+  }
+
+  .slide-3 .phone-mockup {
+    width: 160px;
+    height: 280px;
+    background: #111;
+    border-radius: 28px;
+    border: 2px solid rgba(255,255,255,0.15);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  .slide-3 .phone-screen {
+    position: absolute;
+    inset: 8px;
+    border-radius: 22px;
+    background: linear-gradient(160deg, #0f1117 0%, #080c10 100%);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 12px;
+    gap: 8px;
+  }
+
+  .slide-3 .phone-header {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+
+  .slide-3 .phone-line {
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .slide-3 .phone-line.accent { background: oklch(57% 0.18 42 / 0.4); width: 70%; }
+
+  .slide-3 .split-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  .slide-3 .split-item {
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px;
+    padding: 8px 6px;
+  }
+
+  .slide-3 .split-item .s-label {
+    font-size: 7px;
+    color: #555;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .slide-3 .split-item .s-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--bs-amber);
+    line-height: 1.1;
+  }
+
+  .slide-3 .headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: #fff;
+    text-align: center;
+    line-height: 0.95;
+    letter-spacing: 1px;
+  }
+
+  .slide-3 .headline .green { color: var(--bs-recovery); }
+
+  .slide-3 .check-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bs-recovery-bg);
+    border: 1px solid var(--bs-recovery-border);
+    border-radius: 40px;
+    padding: 10px 20px;
+  }
+
+  .slide-3 .check-badge .check-icon {
+    width: 22px;
+    height: 22px;
+    background: var(--bs-recovery);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .slide-3 .check-badge .check-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--bs-recovery);
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── SLIDE 4: Transformation ───────────────────────────────── */
+  .slide-4 {
+    background: #000;
+  }
+
+  .slide-4 .content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    gap: 20px;
+  }
+
+  .slide-4 .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: #555;
+    text-transform: uppercase;
+  }
+
+  .slide-4 .title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: #fff;
+    text-align: center;
+    line-height: 0.9;
+  }
+
+  .slide-4 .compare {
+    display: grid;
+    grid-template-columns: 1fr 48px 1fr;
+    gap: 0;
+    width: 100%;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .slide-4 .side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 24px 12px;
+    border-radius: 12px;
+  }
+
+  .slide-4 .side-before {
+    background: var(--bs-destruct-bg);
+    border: 1px solid var(--bs-destruct-border);
+  }
+
+  .slide-4 .side-after {
+    background: var(--bs-recovery-bg);
+    border: 1px solid var(--bs-recovery-border);
+  }
+
+  .slide-4 .side-icon {
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .slide-4 .side-time {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 44px;
+    line-height: 1;
+  }
+
+  .slide-4 .before-time { color: var(--bs-destructive); }
+  .slide-4 .after-time { color: var(--bs-recovery); }
+
+  .slide-4 .side-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #444;
+  }
+
+  .slide-4 .divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 100%;
+  }
+
+  .slide-4 .divider-line {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .slide-4 .divider-arrow {
+    font-size: 16px;
+    color: #fff;
+  }
+
+  .slide-4 .saved-badge {
+    background: var(--bs-amber);
+    color: #fff;
+    border-radius: 40px;
+    padding: 14px 28px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 2px;
+    text-align: center;
+    line-height: 1;
+    margin-top: 4px;
+  }
+
+  .slide-4 .saved-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #555;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  /* ─── SLIDE 5: CTA ──────────────────────────────────────────── */
+  .slide-5 {
+    background: #000;
+  }
+
+  .slide-5 .border-frame {
+    position: absolute;
+    inset: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    pointer-events: none;
+  }
+
+  .slide-5 .corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: #fff;
+    border-style: solid;
+  }
+
+  .slide-5 .corner-tl { top: 20px; left: 20px; border-width: 2px 0 0 2px; }
+  .slide-5 .corner-tr { top: 20px; right: 20px; border-width: 2px 2px 0 0; }
+  .slide-5 .corner-bl { bottom: 20px; left: 20px; border-width: 0 0 2px 2px; }
+  .slide-5 .corner-br { bottom: 20px; right: 20px; border-width: 0 2px 2px 0; }
+
+  .slide-5 .content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 36px;
+    gap: 0;
+  }
+
+  .slide-5 .logo-area {
+    margin-bottom: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .slide-5 .logo-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: #fff;
+    letter-spacing: 4px;
+  }
+
+  .slide-5 .headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: #fff;
+    text-align: center;
+    line-height: 0.9;
+    margin-bottom: 32px;
+  }
+
+  .slide-5 .free-badge {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+    padding: 12px 20px;
+    text-align: center;
+    margin-bottom: 28px;
+    width: 100%;
+  }
+
+  .slide-5 .free-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #555;
+    text-transform: uppercase;
+  }
+
+  .slide-5 .free-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: var(--bs-amber);
+    letter-spacing: 2px;
+    line-height: 1.1;
+    margin-top: 4px;
+  }
+
+  .slide-5 .url-area {
+    position: absolute;
+    bottom: 48px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .slide-5 .url-line {
+    width: 40px;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+  }
+
+  .slide-5 .url-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 1px;
+  }
+
+  .slide-5 .url-text span {
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── Slide 1: Hook ─────────────────────────────────────────── -->
+<div class="slide-wrapper">
+  <div class="label">Slide 1 — Hook (0–3s)</div>
+  <div class="slide slide-1">
+    <div class="bg-video">
+      <!-- Runner silhouette via SVG -->
+      <svg class="athlete-silhouette runner-icon" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="100" cy="38" rx="22" ry="22" fill="rgba(255,255,255,0.12)"/>
+        <path d="M85 60 C75 90 65 110 70 140 L60 180 L55 230" stroke="rgba(255,255,255,0.15)" stroke-width="14" stroke-linecap="round"/>
+        <path d="M115 60 C125 90 135 110 130 140 L140 180 L145 230" stroke="rgba(255,255,255,0.15)" stroke-width="14" stroke-linecap="round"/>
+        <path d="M70 140 L50 165 L30 175" stroke="rgba(255,255,255,0.15)" stroke-width="12" stroke-linecap="round"/>
+        <path d="M130 140 L155 160 L175 155" stroke="rgba(255,255,255,0.15)" stroke-width="12" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="overlay"></div>
+    <div class="content">
+      <div class="eyebrow">Are you training hard enough?</div>
+      <div class="headline">
+        STUCK IN THE
+        <span class="highlight">HYROX</span>
+        PAIN CAVE?
+      </div>
+    </div>
+    <div class="red-bar"></div>
+  </div>
+</div>
+
+<!-- ─── Slide 2: Problem ─────────────────────────────────────── -->
+<div class="slide-wrapper">
+  <div class="label">Slide 2 — Problem (3–8s)</div>
+  <div class="slide slide-2">
+    <div class="split">
+      <div class="split-left">
+        <div class="mock-athlete">
+          <svg viewBox="0 0 80 120" width="80" height="120" fill="none">
+            <ellipse cx="40" cy="15" rx="14" ry="14" fill="rgba(255,60,60,0.25)"/>
+            <path d="M30 30 C24 48 20 62 24 78 L18 105" stroke="rgba(255,60,60,0.35)" stroke-width="9" stroke-linecap="round"/>
+            <path d="M50 30 C56 48 60 62 56 78 L62 105" stroke="rgba(255,60,60,0.35)" stroke-width="9" stroke-linecap="round"/>
+            <path d="M24 78 L12 92 L6 88" stroke="rgba(255,60,60,0.35)" stroke-width="8" stroke-linecap="round"/>
+            <path d="M56 78 L68 89 L74 85" stroke="rgba(255,60,60,0.35)" stroke-width="8" stroke-linecap="round"/>
+          </svg>
+          <div style="font-size:10px;color:rgba(255,60,60,0.6);letter-spacing:2px;text-transform:uppercase;font-weight:700;">Struggling</div>
+        </div>
+      </div>
+      <div class="split-right">
+        <div class="pace-block">
+          <div class="pace-label">Current Pace</div>
+          <div class="pace-number">4:22/km</div>
+          <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0;"></div>
+          <div class="pace-label">Target</div>
+          <div class="pace-number" style="color:rgba(255,255,255,0.3);">3:55/km</div>
+          <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0;"></div>
+          <div class="pace-row">
+            <div class="arrow-block">
+              <div class="diag-arrow"></div>
+            </div>
+            <div class="pace-diff">5s off pace</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="overlay-text">
+      <div class="main-text">YOUR <span class="red">PACING</span><br>IS OFF</div>
+    </div>
+    <div class="red-bar"></div>
+  </div>
+</div>
+
+<!-- ─── Slide 3: Solution ────────────────────────────────────── -->
+<div class="slide-wrapper">
+  <div class="label">Slide 3 — Solution (8–15s)</div>
+  <div class="slide slide-3">
+    <div class="grid-bg"></div>
+    <div class="content">
+      <div class="phone-mockup">
+        <div class="phone-screen">
+          <div class="phone-header">BLOCKSMITH</div>
+          <div class="phone-line" style="width:90%;"></div>
+          <div class="phone-line" style="width:60%;opacity:0.5;"></div>
+          <div style="height:8px;"></div>
+          <div class="phone-line accent"></div>
+          <div class="split-bar">
+            <div class="split-item">
+              <div class="s-label">Ski Erg</div>
+              <div class="s-val">3:12</div>
+            </div>
+            <div class="split-item">
+              <div class="s-label">Run</div>
+              <div class="s-val">4:05</div>
+            </div>
+            <div class="split-item">
+              <div class="s-label">Row</div>
+              <div class="s-val">3:45</div>
+            </div>
+            <div class="split-item">
+              <div class="s-label">Burpees</div>
+              <div class="s-val">1:22</div>
+            </div>
+          </div>
+          <div style="height:8px;"></div>
+          <div class="phone-line" style="width:80%;background:rgba(0,200,100,0.2);"></div>
+          <div class="phone-line" style="width:50%;background:rgba(0,200,100,0.15);margin-top:3px;"></div>
+        </div>
+      </div>
+      <div class="headline">
+        BLOCKSMITH AI<br>ANALYZES
+        <span class="green">YOUR</span><br>SPLITS
+      </div>
+      <div class="check-badge">
+        <div class="check-icon">
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="none">
+            <path d="M3 8l3.5 3.5L13 5" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="check-text">Personalised to your data</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Slide 4: Transformation ──────────────────────────────── -->
+<div class="slide-wrapper">
+  <div class="label">Slide 4 — Transformation (15–22s)</div>
+  <div class="slide slide-4">
+    <div class="content">
+      <div class="eyebrow">Real results</div>
+      <div class="title">BEFORE<br>VS AFTER</div>
+      <div class="compare">
+        <div class="side side-before">
+          <div class="side-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none">
+              <circle cx="12" cy="12" r="10" fill="oklch(57.7% 0.245 27.3 / 0.15)" stroke="oklch(57.7% 0.245 27.3)" stroke-width="1.5"/>
+              <path d="M8 8l8 8M16 8l-8 8" stroke="oklch(57.7% 0.245 27.3)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="side-time before-time">17:23</div>
+          <div class="side-label">Before</div>
+        </div>
+        <div class="divider">
+          <div class="divider-line"></div>
+          <div class="divider-arrow">→</div>
+          <div class="divider-line"></div>
+        </div>
+        <div class="side side-after">
+          <div class="side-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none">
+              <circle cx="12" cy="12" r="10" fill="rgba(4,120,87,0.15)" stroke="#047857" stroke-width="1.5"/>
+              <path d="M7 12.5l3.5 3.5 6.5-7" stroke="#047857" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="side-time after-time">15:53</div>
+          <div class="side-label">After</div>
+        </div>
+      </div>
+      <div class="saved-badge">+1:30 SAVED</div>
+      <div class="saved-sub">with blocksmith training plan</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Slide 5: CTA ──────────────────────────────────────────── -->
+<div class="slide-wrapper">
+  <div class="label">Slide 5 — CTA (22–30s)</div>
+  <div class="slide slide-5">
+    <div class="border-frame"></div>
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+    <div class="content">
+      <div class="logo-area">
+        <div class="logo-name">BLOCKSMITH</div>
+      </div>
+      <div class="headline">
+        BUILD YOUR<br>PERSONALISED<br>HYROX PLAN
+      </div>
+      <div class="free-badge">
+        <div class="free-label">What you get</div>
+        <div class="free-text">AI-Analysed Race Splits</div>
+      </div>
+    </div>
+    <div class="url-area">
+      <div class="url-line"></div>
+      <div class="url-text">Link in bio</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

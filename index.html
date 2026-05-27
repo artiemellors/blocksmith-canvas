@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blocksmith Canvas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber: oklch(57% 0.18 42);
+    --fg:    oklch(14% 0 0);
+    --muted: oklch(46% 0 0);
+    --bg:    oklch(97.8% 0.004 90);
+    --card:  oklch(100% 0 0);
+    --border: oklch(90% 0.005 90);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--fg);
+    color: oklch(98% 0 0);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    padding: 48px 64px 0;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: oklch(60% 0 0);
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-size: 56px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: oklch(98% 0 0);
+  }
+
+  h1 span { color: var(--amber); }
+
+  .subtitle {
+    font-size: 16px;
+    color: oklch(60% 0 0);
+    margin-top: 12px;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  main {
+    flex: 1;
+    padding: 56px 64px 80px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    align-content: start;
+  }
+
+  .card {
+    background: oklch(18% 0 0);
+    border: 1px solid oklch(100% 0 0 / 8%);
+    border-radius: 16px;
+    padding: 28px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 150ms, background 150ms;
+  }
+
+  .card:hover {
+    background: oklch(20% 0 0);
+    border-color: oklch(100% 0 0 / 16%);
+  }
+
+  .card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: oklch(98% 0 0);
+    letter-spacing: -0.01em;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: oklch(60% 0 0);
+    line-height: 1.5;
+  }
+
+  .card-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: oklch(45% 0 0);
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid oklch(100% 0 0 / 6%);
+  }
+
+  .card-meta span { color: var(--amber); }
+
+  footer {
+    padding: 24px 64px;
+    border-top: 1px solid oklch(100% 0 0 / 8%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-note {
+    font-size: 12px;
+    color: oklch(40% 0 0);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .footer-note span { color: var(--amber); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Adsy — Blocksmith</div>
+  <h1>The <span>Canvas</span></h1>
+  <p class="subtitle">Design system reference, content templates, and a staging area for Instagram assets.</p>
+</header>
+
+<main>
+
+  <a class="card" href="/design-system">
+    <div class="card-icon" style="background: oklch(57% 0.18 42 / 0.15);">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <circle cx="6" cy="6" r="3.5" stroke="oklch(57% 0.18 42)" stroke-width="1.4"/>
+        <circle cx="14" cy="6" r="3.5" stroke="oklch(57% 0.18 42)" stroke-width="1.4"/>
+        <circle cx="6" cy="14" r="3.5" stroke="oklch(57% 0.18 42)" stroke-width="1.4"/>
+        <circle cx="14" cy="14" r="3.5" stroke="oklch(100% 0 0 / 20%)" stroke-width="1.4"/>
+      </svg>
+    </div>
+    <div class="card-title">Design System</div>
+    <div class="card-desc">Colours, typography, components, and rules. Read this before creating any content.</div>
+    <div class="card-meta"><span>/design-system</span></div>
+  </a>
+
+  <a class="card" href="/templates/instagram-reel">
+    <div class="card-icon" style="background: oklch(57.7% 0.245 27.3 / 0.12);">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <rect x="5" y="2" width="10" height="16" rx="2" stroke="oklch(57.7% 0.245 27.3)" stroke-width="1.4"/>
+        <path d="M8 7.5l4.5 2.5L8 12.5V7.5z" fill="oklch(57.7% 0.245 27.3)"/>
+      </svg>
+    </div>
+    <div class="card-title">Instagram Reel</div>
+    <div class="card-desc">5-slide Hyrox reel template. 1080×1920. Fork into <code style="font-family:inherit;font-size:11px;background:oklch(100% 0 0 / 6%);padding:1px 4px;border-radius:3px;">canvas/</code> to create new content.</div>
+    <div class="card-meta"><span>/templates/instagram-reel</span> · 9:16 · 5 slides</div>
+  </a>
+
+  <a class="card" href="/canvas" style="border-style: dashed; border-color: oklch(100% 0 0 / 12%);">
+    <div class="card-icon" style="background: oklch(100% 0 0 / 5%);">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M10 4v12M4 10h12" stroke="oklch(60% 0 0)" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="card-title" style="color: oklch(60% 0 0);">Canvas</div>
+    <div class="card-desc">Adsy drops new content here. Push an HTML file to <code style="font-family:inherit;font-size:11px;background:oklch(100% 0 0 / 6%);padding:1px 4px;border-radius:3px;">canvas/filename.html</code> — it's live immediately.</div>
+    <div class="card-meta"><span>/canvas/</span></div>
+  </a>
+
+</main>
+
+<footer>
+  <div class="footer-note">blocksmith-canvas &nbsp;·&nbsp; <span>Adsy's staging environment</span></div>
+  <div class="footer-note">Push to main → Vercel deploys in ~30s</div>
+</footer>
+
+</body>
+</html>
