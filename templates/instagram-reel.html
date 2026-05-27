@@ -645,6 +645,11 @@
 
   /* ─── Single-slide capture mode (?slide=N) ─────────────────── */
   body.capture-mode {
+    width: 360px;
+    height: 640px;
+    max-width: 360px;
+    max-height: 640px;
+    overflow: hidden;
     background: #000;
     display: block;
     padding: 0;
@@ -655,6 +660,7 @@
     display: block;
     width: 360px;
     height: 640px;
+    overflow: hidden;
   }
   body.capture-mode .label { display: none; }
   body.capture-mode .slide {
@@ -863,6 +869,18 @@
     wrappers.forEach((el, i) => {
       if (i + 1 === idx) el.classList.add('active');
     });
+
+    // Constrain the entire document to exactly 360×640 so a full-page
+    // screenshot captures only the slide and nothing else.
+    const meta = document.querySelector('meta[name="viewport"]');
+    if (meta) meta.content = 'width=360, height=640, initial-scale=1';
+    const s = document.documentElement.style;
+    s.width = '360px';
+    s.height = '640px';
+    s.maxWidth = '360px';
+    s.maxHeight = '640px';
+    s.overflow = 'hidden';
+    s.background = '#000';
   }
 </script>
 </body>
