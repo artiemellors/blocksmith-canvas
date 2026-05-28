@@ -146,4 +146,4 @@ author: "Adsy"
 - **Targeting**: HYROX interest, fitness apps, 25–45 age, Australia/UK/US/NZ/EU
 - **Creative**: Use the same carousel slides as organic — no separate ad creative needed
 - **CTA**: "Start free trial" → blocksmith.training
-- **Budget approval needed**: Weeks 1–4 (~$160 total), Weeks 5–12 (~$300/week = ~$2,400 total)
+- **Budget approval needed**: Weeks 1–4 (~$160 total). Weeks 5–12 budget TBD — revisit after Week 4 with real conversion data before committing.
