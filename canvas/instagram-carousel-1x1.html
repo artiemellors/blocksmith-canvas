@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blocksmith — Hyrox Carousel 4:5</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bs-amber: oklch(57% 0.18 42);
+      --bs-destructive: oklch(57.7% 0.245 27.3);
+      --bs-recovery: #047857;
+      --bs-recovery-bg: rgba(4, 120, 87, 0.10);
+      --bs-recovery-border: rgba(4, 120, 87, 0.28);
+      --bs-destruct-bg: oklch(57.7% 0.245 27.3 / 0.09);
+      --bs-destruct-border: oklch(57.7% 0.245 27.3 / 0.28);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 20px;
+    }
+    .label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    .slide-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .slide {
+      width: 1080px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      flex-shrink: 0;
+      background: #000;
+    }
+
+    /* SLIDE 1: HOOK */
+    .slide-1 .bg-video {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, #1a1a1a 0%, #0a0a0a 60%, oklch(0.12 0.04 27.3) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slide-1 .bg-video::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(60% 40% at 50% 40%, oklch(0.577 0.245 27.3 / 0.22) 0%, transparent 70%),
+        linear-gradient(rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+    }
+    .slide-1 .content {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 60px;
+    }
+    .slide-1 .eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 6px;
+      color: var(--bs-destructive);
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+    .slide-1 .headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 180px;
+      line-height: 0.95;
+      color: #fff;
+      text-align: center;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+    .slide-1 .headline .highlight {
+      color: var(--bs-destructive);
+      display: block;
+    }
+    .slide-1 .red-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: var(--bs-destructive);
+    }
+    
+    /* For ?slide=N screenshotting */
+    body.capture-mode {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      background: #000;
+      padding: 0;
+      gap: 0;
+    }
+    body.capture-mode .slide-wrapper { display: none; }
+    body.capture-mode .slide-wrapper.active {
+      display: block;
+    }
+    body.capture-mode .label { display: none; }
+    body.capture-mode .slide { border-radius: 0; }
+  </style>
+</head>
+<body>
+
+<!-- ─── Slide 1: Hook ─────────────────────────────────────────── -->
+<div class="slide-wrapper active">
+  <div class="label">Slide 1 — Hook</div>
+  <div class="slide slide-1">
+    <div class="bg-video"></div>
+    <div class="overlay"></div>
+    <div class="content">
+      <div class="eyebrow">Are you training hard enough?</div>
+      <div class="headline">
+        STUCK IN THE
+        <span class="highlight">HYROX</span>
+        PAIN CAVE?
+      </div>
+    </div>
+    <div class="red-bar"></div>
+  </div>
+</div>
+
+
+<script>
+  // ?slide=N — isolates one slide for screenshotting.
+  // Navigate to e.g. /templates/instagram-carousel-4x5.html?slide=1 then screenshot.
+  const n = new URLSearchParams(location.search).get("slide");
+  if (n) {
+    const idx = parseInt(n, 10);
+    document.body.classList.add("capture-mode");
+    const wrappers = document.querySelectorAll(".slide-wrapper");
+    wrappers.forEach((el, i) => {
+      if (i + 1 === idx) el.classList.add("active");
+    });
+  }
+</script>
+
+</body>
+</html>
