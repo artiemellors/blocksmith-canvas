@@ -26,37 +26,15 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    padding: 80px 100px;
-  }
-
-  /* Corner frame */
-  .corner {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    border-color: rgba(255,255,255,0.2);
-    border-style: solid;
-  }
-  .corner-tl { top: 36px; left: 36px; border-width: 2px 0 0 2px; }
-  .corner-tr { top: 36px; right: 36px; border-width: 2px 2px 0 0; }
-  .corner-bl { bottom: 36px; left: 36px; border-width: 0 0 2px 2px; }
-  .corner-br { bottom: 36px; right: 36px; border-width: 0 2px 2px 0; }
-
-  .inner-frame {
-    position: absolute;
-    inset: 36px;
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 2px;
-    pointer-events: none;
+    padding: 80px 88px;
   }
 
   .content {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
     position: relative;
     z-index: 1;
     gap: 0;
@@ -85,7 +63,6 @@
     border-radius: 8px;
     padding: 24px 40px;
     margin-bottom: 52px;
-    width: 100%;
     max-width: 700px;
   }
 
@@ -143,12 +120,6 @@
 </style>
 </head>
 <body>
-
-<div class="inner-frame"></div>
-<div class="corner corner-tl"></div>
-<div class="corner corner-tr"></div>
-<div class="corner corner-bl"></div>
-<div class="corner corner-br"></div>
 
 <div class="content">
   <div class="wordmark" data-param="brand">BLOCKSMITH</div>
