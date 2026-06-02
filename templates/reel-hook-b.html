@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Reel Hook B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber: oklch(60% 0.18 42);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1920px;
+    background: #050505;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Diagonal texture — consistent with hook-a and reel-cta */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -55deg,
+      transparent,
+      transparent 60px,
+      rgba(255,255,255,0.012) 60px,
+      rgba(255,255,255,0.012) 61px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Ambient amber glow centered on the stat — different from hook-a's bottom glow */
+  body::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 960px;
+    height: 960px;
+    background: radial-gradient(ellipse, oklch(60% 0.18 42 / 0.08) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Brand watermark ────────────────────────────────────────── */
+  .brand {
+    position: absolute;
+    top: 60px;
+    right: 70px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 6px;
+    color: rgba(255,255,255,0.2);
+    z-index: 1;
+  }
+
+  /* ── Eyebrow ─────────────────────────────────────────────────── */
+  .eyebrow {
+    padding: 88px 88px 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--amber);
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  /* ── Stat zone — vertically centered, data is the message ───── */
+  .stat-zone {
+    flex: 1;
+    padding: 0 88px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stat {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 220px;
+    line-height: 0.87;
+    color: var(--amber);
+    letter-spacing: -2px;
+    word-break: break-word;
+  }
+
+  .stat-rule {
+    width: 100%;
+    height: 1px;
+    background: oklch(60% 0.18 42 / 0.5);
+    margin: 36px 0;
+  }
+
+  .stat-context {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.5;
+    max-width: 720px;
+  }
+
+  .stat-context strong {
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+  }
+
+  /* ── Headline zone — explains the stat, anchored to the bottom ─ */
+  .headline-zone {
+    padding: 0 88px 108px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .headline-divider {
+    width: 48px;
+    height: 3px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 2px;
+    margin-bottom: 32px;
+  }
+
+  .headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    line-height: 0.9;
+    color: #fff;
+    letter-spacing: 1px;
+    word-break: break-word;
+  }
+
+  /* ── Bottom bar ─────────────────────────────────────────────── */
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: var(--amber);
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+
+<div class="brand" data-param="brand">BLOCKSMITH</div>
+<div class="eyebrow" data-param="eyebrow">HYROX race data</div>
+
+<div class="stat-zone">
+  <div class="stat" data-param="stat">−2:43</div>
+  <div class="stat-rule"></div>
+  <div class="stat-context" data-param="stat_context">average time lost by athletes who overpace the first two stations</div>
+</div>
+
+<div class="headline-zone" id="headline-zone">
+  <div class="headline-divider"></div>
+  <div class="headline" data-param="headline">THIS IS WHY YOU<br>BLOW UP EVERY RACE</div>
+</div>
+
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+  // Hide headline zone if no headline provided
+  if (!p.get('headline')) {
+    document.getElementById('headline-zone').style.display = 'none';
+  }
+</script>
+</body>
+</html>

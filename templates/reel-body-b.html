@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Reel Body B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber:       oklch(60% 0.18 42);
+    --destructive: oklch(57.7% 0.245 27.3);
+    --recovery:    oklch(50.8% 0.105 166);
+
+    /* Variant tokens — default (amber) */
+    --v-accent: oklch(60% 0.18 42);
+    --v-glow-a: oklch(60% 0.18 42 / 0.06);
+    --v-glow-b: oklch(60% 0.18 42 / 0.03);
+  }
+
+  body.variant-before {
+    --v-accent: oklch(57.7% 0.245 27.3);
+    --v-glow-a: oklch(57.7% 0.245 27.3 / 0.14);
+    --v-glow-b: oklch(57.7% 0.245 27.3 / 0.05);
+  }
+
+  body.variant-after {
+    --v-accent: oklch(50.8% 0.105 166);
+    --v-glow-a: oklch(50.8% 0.105 166 / 0.14);
+    --v-glow-b: oklch(50.8% 0.105 166 / 0.05);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1920px;
+    background: #050505;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Corner glow — default top-right; before: top-right; after: bottom-left */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 100% 0%, var(--v-glow-a) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body.variant-after::before {
+    background: radial-gradient(ellipse 70% 50% at 0% 100%, var(--v-glow-a) 0%, transparent 60%);
+  }
+
+  body::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 50% 35% at 0% 100%, var(--v-glow-b) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body.variant-after::after {
+    background: radial-gradient(ellipse 50% 35% at 100% 0%, var(--v-glow-b) 0%, transparent 55%);
+  }
+
+  /* ── Top bar ────────────────────────────────────────────────── */
+  .top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 60px 70px 0 88px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+  }
+
+  .brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 6px;
+    color: rgba(255,255,255,0.2);
+  }
+
+  .frame-indicator {
+    font-family: 'DM Mono', monospace;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: oklch(60% 0.18 42 / 0.5);
+  }
+
+  body.variant-before .frame-indicator { color: oklch(57.7% 0.245 27.3 / 0.5); }
+  body.variant-after .frame-indicator  { color: oklch(50.8% 0.105 166 / 0.5); }
+
+  /* ── Main content — centered ────────────────────────────────── */
+  .main {
+    flex: 1;
+    padding: 0 88px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Optional section heading ───────────────────────────────── */
+  .heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    line-height: 0.9;
+    color: #fff;
+    letter-spacing: 1px;
+    word-break: break-word;
+    margin-bottom: 24px;
+  }
+
+  .heading-rule {
+    width: 52px;
+    height: 3px;
+    background: var(--v-accent);
+    border-radius: 2px;
+    margin-bottom: 48px;
+  }
+
+  /* ── List ────────────────────────────────────────────────────── */
+  .list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item {
+    display: flex;
+    gap: 28px;
+    padding: 32px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    align-items: flex-start;
+  }
+
+  .item:last-child {
+    border-bottom: none;
+  }
+
+  .item-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--v-accent);
+    flex: 0 0 44px;
+    text-align: right;
+    padding-top: 3px;
+    opacity: 0.85;
+  }
+
+  .item-content {
+    flex: 1;
+  }
+
+  .item-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .item-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.45;
+  }
+
+  .item-text strong {
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+  }
+
+  /* ── Bottom bar ─────────────────────────────────────────────── */
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: var(--v-accent);
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="brand" data-param="brand">BLOCKSMITH</div>
+  <div class="frame-indicator" data-param="frame">02 / 04</div>
+</div>
+
+<div class="main">
+
+  <div id="heading-block">
+    <div class="heading" data-param="heading">3 PACING RULES</div>
+    <div class="heading-rule"></div>
+  </div>
+
+  <div class="list">
+
+    <div class="item">
+      <div class="item-num">01</div>
+      <div class="item-content">
+        <div class="item-label" data-param="item1_label">SKIERG: START SLOW</div>
+        <div class="item-text" data-param="item1_text">Hold <strong>5–8% below race pace</strong> for the first 500m. The run is where it pays off.</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-num">02</div>
+      <div class="item-content">
+        <div class="item-label" data-param="item2_label">SLED: LEGS FIRST</div>
+        <div class="item-text" data-param="item2_text">Low hips, drive from the heel. Back involvement means too heavy or too slow.</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-num">03</div>
+      <div class="item-content">
+        <div class="item-label" data-param="item3_label">WALL BALLS: SET RHYTHM</div>
+        <div class="item-text" data-param="item3_text">Pick a <strong>sustainable cadence from rep 1.</strong> Plan your sets before you start.</div>
+      </div>
+    </div>
+
+    <div class="item" id="item4" style="display:none">
+      <div class="item-num">04</div>
+      <div class="item-content">
+        <div class="item-label" data-param="item4_label"></div>
+        <div class="item-text" data-param="item4_text"></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+
+  // Inject params
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+
+  // Variant
+  const variant = p.get('variant') || 'default';
+  if (variant === 'before') document.body.classList.add('variant-before');
+  else if (variant === 'after') document.body.classList.add('variant-after');
+
+  // Hide heading block if no heading provided
+  if (!p.get('heading')) {
+    document.getElementById('heading-block').style.display = 'none';
+  }
+
+  // Show item 4 only if label is provided
+  if (p.get('item4_label')) {
+    document.getElementById('item4').style.display = 'flex';
+  }
+</script>
+</body>
+</html>
