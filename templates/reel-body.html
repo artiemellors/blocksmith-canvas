@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Reel Body</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber:       oklch(60% 0.18 42);
+    --destructive: oklch(57.7% 0.245 27.3);
+    --recovery:    oklch(50.8% 0.105 166);
+
+    /* Variant tokens — default (amber) */
+    --v-accent:  oklch(60% 0.18 42);
+    --v-glow-a:  oklch(60% 0.18 42 / 0.06);
+    --v-glow-b:  oklch(60% 0.18 42 / 0.03);
+  }
+
+  body.variant-before {
+    --v-accent:  oklch(57.7% 0.245 27.3);
+    --v-glow-a:  oklch(57.7% 0.245 27.3 / 0.14);
+    --v-glow-b:  oklch(57.7% 0.245 27.3 / 0.05);
+  }
+
+  body.variant-after {
+    --v-accent:  oklch(50.8% 0.105 166);
+    --v-glow-a:  oklch(50.8% 0.105 166 / 0.14);
+    --v-glow-b:  oklch(50.8% 0.105 166 / 0.05);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1920px;
+    background: #050505;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Corner glow — default: subtle amber centre-top */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 100% 0%, var(--v-glow-a) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* After variant: glow from bottom-left instead */
+  body.variant-after::before {
+    background: radial-gradient(ellipse 80% 60% at 0% 100%, var(--v-glow-a) 0%, transparent 60%);
+  }
+
+  /* Secondary ambient: opposing corner, lighter */
+  body::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 40% at 0% 100%, var(--v-glow-b) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body.variant-after::after {
+    background: radial-gradient(ellipse 60% 40% at 100% 0%, var(--v-glow-b) 0%, transparent 55%);
+  }
+
+  /* ── Top bar (frame indicator + brand) ──────────────────────── */
+  .top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 60px 70px 0 88px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+  }
+
+  .brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 6px;
+    color: rgba(255,255,255,0.2);
+  }
+
+  .frame-indicator {
+    font-family: 'DM Mono', monospace;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: oklch(60% 0.18 42 / 0.5);
+  }
+
+  body.variant-before .frame-indicator { color: oklch(57.7% 0.245 27.3 / 0.5); }
+  body.variant-after .frame-indicator { color: oklch(50.8% 0.105 166 / 0.5); }
+
+  /* ── Main content ────────────────────────────────────────────── */
+  .main {
+    flex: 1;
+    padding: 0 88px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Variant tag (before / after) ───────────────────────────── */
+  .variant-tag {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .tag-icon {
+    font-size: 30px;
+    line-height: 1;
+    color: var(--v-accent);
+  }
+
+  .tag-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--v-accent);
+  }
+
+  /* ── Optional step label ────────────────────────────────────── */
+  .step-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--v-accent);
+    opacity: 0.75;
+    margin-bottom: 20px;
+  }
+
+  /* ── Heading ─────────────────────────────────────────────────── */
+  .heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 90px;
+    line-height: 0.88;
+    color: #fff;
+    letter-spacing: 1px;
+    word-break: break-word;
+  }
+
+  /* ── Rule ────────────────────────────────────────────────────── */
+  .rule {
+    width: 60px;
+    height: 3px;
+    background: var(--v-accent);
+    border-radius: 2px;
+    margin-top: 36px;
+  }
+
+  /* ── Body text ───────────────────────────────────────────────── */
+  .body-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.55;
+    margin-top: 28px;
+    max-width: 820px;
+  }
+
+  .body-text strong {
+    color: rgba(255,255,255,0.88);
+    font-weight: 600;
+  }
+
+  /* ── Data callout (optional) ────────────────────────────────── */
+  .data-callout {
+    margin-top: 52px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .data-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 64px;
+    font-weight: 600;
+    color: var(--v-accent);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+
+  .data-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 17px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.38);
+    margin-top: 10px;
+    max-width: 600px;
+    line-height: 1.4;
+  }
+
+  /* ── Bottom bar ─────────────────────────────────────────────── */
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: var(--v-accent);
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="brand" data-param="brand">BLOCKSMITH</div>
+  <div class="frame-indicator" data-param="frame">02 / 04</div>
+</div>
+
+<div class="main">
+
+  <div class="variant-tag" id="variant-tag" style="display:none">
+    <span class="tag-icon" id="tag-icon">✕</span>
+    <span class="tag-label" data-param="tag_label">WITHOUT A PLAN</span>
+  </div>
+
+  <div class="step-label" id="step-label" style="display:none" data-param="step_label">MISTAKE 01</div>
+
+  <div class="heading" data-param="heading">OVERPACING<br>THE SKIERG</div>
+
+  <div class="rule"></div>
+
+  <div class="body-text" data-param="body">Going out too hard costs you on the run that follows. Hold <strong>5–8% below race pace</strong> for the first 500m.</div>
+
+  <div class="data-callout" id="data-callout">
+    <div class="data-value" data-param="data_value">−90s</div>
+    <div class="data-label" data-param="data_label">average time lost by athletes who overpace</div>
+  </div>
+
+</div>
+
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+
+  // Inject params
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+
+  // Variant
+  const variant = p.get('variant') || 'default';
+  if (variant === 'before') {
+    document.body.classList.add('variant-before');
+    const tag = document.getElementById('variant-tag');
+    tag.style.display = 'flex';
+    document.getElementById('tag-icon').textContent = '✕';
+  } else if (variant === 'after') {
+    document.body.classList.add('variant-after');
+    const tag = document.getElementById('variant-tag');
+    tag.style.display = 'flex';
+    document.getElementById('tag-icon').textContent = '✓';
+  }
+
+  // Show step label if provided
+  if (p.get('step_label')) {
+    document.getElementById('step-label').style.display = 'block';
+  }
+
+  // Hide data callout if no value
+  if (!p.get('data_value')) {
+    document.getElementById('data-callout').style.display = 'none';
+  }
+</script>
+</body>
+</html>

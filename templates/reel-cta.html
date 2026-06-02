@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Reel CTA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber: oklch(60% 0.18 42);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1920px;
+    background: #050505;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Diagonal texture — consistent with hook frame */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -55deg,
+      transparent,
+      transparent 60px,
+      rgba(255,255,255,0.011) 60px,
+      rgba(255,255,255,0.011) 61px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Upper section: brand floats down to meet the band ──────── */
+  .upper {
+    flex: 1;
+    padding: 88px 88px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 1;
+  }
+
+  .wordmark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: 6px;
+    color: var(--amber);
+    margin-bottom: 20px;
+  }
+
+  .trial-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+
+  /* ── Amber band: full-width inversion — the only amber-bg surface in the system ── */
+  .amber-band {
+    background: var(--amber);
+    padding: 64px 88px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 116px;
+    line-height: 0.87;
+    color: oklch(8% 0.005 42);
+    letter-spacing: 2px;
+    word-break: break-word;
+  }
+
+  /* ── Lower section: value prop anchored to top of zone ─────── */
+  .lower {
+    flex: 1;
+    padding: 68px 88px 88px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+    z-index: 1;
+  }
+
+  .value-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+    max-width: 700px;
+  }
+
+  .no-card {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.3);
+    margin-top: 20px;
+  }
+
+  .url-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 56px;
+  }
+
+  .url-divider {
+    width: 48px;
+    height: 1px;
+    background: rgba(255,255,255,0.18);
+    flex-shrink: 0;
+  }
+
+  .url {
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.28);
+  }
+
+  /* ── Bottom bar ─────────────────────────────────────────────── */
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: var(--amber);
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+
+<div class="upper">
+  <div class="wordmark" data-param="brand">BLOCKSMITH</div>
+  <div class="trial-label">FIRST BLOCK FREE</div>
+</div>
+
+<div class="amber-band">
+  <div class="headline" data-param="headline">BUILD YOUR<br>HYROX PLAN</div>
+</div>
+
+<div class="lower">
+  <div class="value-text" data-param="value_text">8 stations prescribed. Every session written.</div>
+  <div class="no-card">No card required.</div>
+  <div class="url-row">
+    <div class="url-divider"></div>
+    <div class="url" data-param="url">blocksmith.training</div>
+  </div>
+</div>
+
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+</script>
+</body>
+</html>

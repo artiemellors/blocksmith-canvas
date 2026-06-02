@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Reel Hook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber: oklch(60% 0.18 42);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1920px;
+    background: #050505;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Diagonal texture — matches carousel hook family */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -55deg,
+      transparent,
+      transparent 60px,
+      rgba(255,255,255,0.014) 60px,
+      rgba(255,255,255,0.014) 61px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Amber warmth rising from the bottom bar — makes the empty space atmospheric */
+  body::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    height: 700px;
+    background: radial-gradient(ellipse 100% 100% at 50% 100%, oklch(60% 0.18 42 / 0.09) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Brand watermark ────────────────────────────────────────── */
+  .brand {
+    position: absolute;
+    top: 60px;
+    right: 70px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 6px;
+    color: rgba(255,255,255,0.2);
+    z-index: 1;
+  }
+
+  /* ── Eyebrow ─────────────────────────────────────────────────── */
+  .eyebrow {
+    padding: 96px 88px 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--amber);
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  /* ── Title block ─────────────────────────────────────────────── */
+  .title-zone {
+    padding: 32px 88px 0;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 140px;
+    line-height: 0.88;
+    color: #fff;
+    letter-spacing: 1px;
+    word-break: break-word;
+  }
+
+  .title .amber { color: var(--amber); }
+
+  .amber-rule {
+    width: 72px;
+    height: 4px;
+    background: var(--amber);
+    border-radius: 2px;
+    margin-top: 48px;
+  }
+
+  /* ── Sub-text + breathing room ──────────────────────────────── */
+  .sub-zone {
+    flex: 1;
+    padding: 40px 88px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.55;
+    max-width: 760px;
+  }
+
+  .sub strong {
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+  }
+
+  /* ── Bottom bar ─────────────────────────────────────────────── */
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: var(--amber);
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+
+<div class="brand" data-param="brand">BLOCKSMITH</div>
+<div class="eyebrow" data-param="eyebrow">HYROX pacing</div>
+
+<div class="title-zone">
+  <div class="title" data-param="title">5 MISTAKES<br>KILLING YOUR<br><span class="amber">HYROX RACE</span></div>
+  <div class="amber-rule"></div>
+</div>
+
+<div class="sub-zone">
+  <div class="sub" data-param="sub">Most athletes make at least 3 of these. Fix them and find <strong>60–90 seconds.</strong></div>
+</div>
+
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+</script>
+</body>
+</html>
