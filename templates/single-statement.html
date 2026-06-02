@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Single Statement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber:       oklch(57% 0.18 42);
+    --destructive: oklch(57.7% 0.245 27.3);
+    --recovery:    #047857;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #080808;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 88px;
+  }
+
+  /* Subtle grid */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 54px 54px;
+    pointer-events: none;
+  }
+
+  .brand {
+    position: absolute;
+    top: 52px;
+    right: 60px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 6px;
+    color: rgba(255,255,255,0.2);
+  }
+
+  .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 36px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 108px;
+    line-height: 0.92;
+    color: #fff;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .headline .highlight {
+    color: var(--amber);
+  }
+
+  .sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.45);
+    margin-top: 40px;
+    max-width: 680px;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
+
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: var(--amber);
+  }
+</style>
+</head>
+<body>
+
+<div class="brand" data-param="brand">BLOCKSMITH</div>
+<div class="eyebrow" data-param="eyebrow">Training insight</div>
+<div class="headline" data-param="headline">YOUR SKIERG<br>PACE IS<br><span class="highlight">COSTING YOU</span><br>90 SECONDS</div>
+<div class="sub" data-param="sub">Most athletes overpace the SkiErg and pay for it on the run. Blocksmith prescribes it correctly.</div>
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+</script>
+</body>
+</html>

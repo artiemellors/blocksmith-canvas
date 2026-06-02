@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Reel Educational</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber:           oklch(57% 0.18 42);
+    --amber-bg:        oklch(57% 0.18 42 / 0.08);
+    --amber-border:    oklch(57% 0.18 42 / 0.20);
+    --destructive:     oklch(57.7% 0.245 27.3);
+    --recovery:        #047857;
+    --recovery-bg:     rgba(4, 120, 87, 0.08);
+    --recovery-border: rgba(4, 120, 87, 0.25);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1920px;
+    overflow: hidden;
+    background: #050505;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Subtle grid on upper third */
+  body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 640px;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 54px 54px;
+    pointer-events: none;
+  }
+
+  /* ── Header ─────────────────────────────────────────────────── */
+  .header {
+    padding: 80px 88px 60px;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .header-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 7px;
+    color: rgba(255,255,255,0.2);
+    margin-bottom: 36px;
+  }
+
+  .header-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 20px;
+  }
+
+  .header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 130px;
+    line-height: 0.87;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+
+  .header-title .amber { color: var(--amber); }
+
+  .header-divider {
+    width: 60px;
+    height: 4px;
+    background: var(--amber);
+    border-radius: 2px;
+    margin-top: 40px;
+  }
+
+  /* ── Steps ──────────────────────────────────────────────────── */
+  .steps {
+    flex: 1;
+    padding: 60px 88px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step {
+    display: flex;
+    gap: 36px;
+    padding: 36px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    align-items: flex-start;
+  }
+
+  .step:last-child {
+    border-bottom: none;
+  }
+
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    line-height: 1;
+    color: var(--amber);
+    flex-shrink: 0;
+    width: 60px;
+    text-align: right;
+    opacity: 0.85;
+  }
+
+  .step-content {
+    flex: 1;
+    padding-top: 6px;
+  }
+
+  .step-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    line-height: 0.92;
+    color: #fff;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+
+  .step-detail {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.45;
+  }
+
+  .step-detail strong {
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+  }
+
+  .step-data {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--amber);
+    margin-top: 10px;
+    opacity: 0.8;
+  }
+
+  /* Hidden step */
+  .step.hidden { display: none; }
+
+  /* ── Footer CTA ─────────────────────────────────────────────── */
+  .footer {
+    padding: 52px 88px 80px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-note {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.4);
+    max-width: 600px;
+    line-height: 1.45;
+  }
+
+  .footer-note strong {
+    color: rgba(255,255,255,0.75);
+    font-weight: 600;
+  }
+
+  .footer-url {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.25);
+    white-space: nowrap;
+    margin-left: 40px;
+    flex-shrink: 0;
+  }
+
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: var(--amber);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-brand" data-param="brand">BLOCKSMITH</div>
+  <div class="header-eyebrow" data-param="eyebrow">The breakdown</div>
+  <div class="header-title" data-param="title">HOW TO PACE<br>THE <span class="amber">8 STATIONS</span></div>
+  <div class="header-divider"></div>
+</div>
+
+<div class="steps">
+  <div class="step" id="step1">
+    <div class="step-num">01</div>
+    <div class="step-content">
+      <div class="step-heading" data-param="step1_heading">SKIERG — GO OUT CONTROLLED</div>
+      <div class="step-detail" data-param="step1_detail">Hold <strong>5–8% below race pace</strong> for first 500m. The run that follows is where this pays off.</div>
+      <div class="step-data" data-param="step1_data">Target: 3:00–3:20 / 1000m</div>
+    </div>
+  </div>
+  <div class="step" id="step2">
+    <div class="step-num">02</div>
+    <div class="step-content">
+      <div class="step-heading" data-param="step2_heading">SLED PUSH — LEGS, NOT BACK</div>
+      <div class="step-detail" data-param="step2_detail">Low hips, drive through the heel. Back involvement signals you're too heavy or too slow.</div>
+      <div class="step-data" data-param="step2_data"></div>
+    </div>
+  </div>
+  <div class="step" id="step3">
+    <div class="step-num">03</div>
+    <div class="step-content">
+      <div class="step-heading" data-param="step3_heading">ROWING — LEGS FIRST</div>
+      <div class="step-detail" data-param="step3_detail">60% legs, 20% core, 20% arms. Rushing the catch kills efficiency.</div>
+      <div class="step-data" data-param="step3_data">Target: sub 2:00 / 500m split</div>
+    </div>
+  </div>
+  <div class="step" id="step4">
+    <div class="step-num">04</div>
+    <div class="step-content">
+      <div class="step-heading" data-param="step4_heading">WALL BALLS — RHYTHM WINS</div>
+      <div class="step-detail" data-param="step4_detail">Set a <strong>sustainable cadence from rep 1</strong>. Breaking at rep 70 is a disaster. Plan your sets before you start.</div>
+      <div class="step-data" data-param="step4_data"></div>
+    </div>
+  </div>
+  <div class="step hidden" id="step5">
+    <div class="step-num">05</div>
+    <div class="step-content">
+      <div class="step-heading" data-param="step5_heading"></div>
+      <div class="step-detail" data-param="step5_detail"></div>
+      <div class="step-data" data-param="step5_data"></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-note" data-param="note">Blocksmith <strong>prescribes every station</strong> based on your pace zones and race date.</div>
+  <div class="footer-url">blocksmith.training</div>
+</div>
+
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+  // Show step5 only if it has content
+  if (p.get('step5_heading')) document.getElementById('step5').classList.remove('hidden');
+  // Hide data rows that are empty
+  document.querySelectorAll('.step-data').forEach(el => {
+    if (!el.textContent.trim()) el.style.display = 'none';
+  });
+</script>
+</body>
+</html>

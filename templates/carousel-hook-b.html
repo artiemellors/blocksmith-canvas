@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Carousel Hook B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber:           oklch(57% 0.18 42);
+    --destructive:     oklch(57.7% 0.245 27.3);
+    --destruct-bg:     oklch(57.7% 0.245 27.3 / 0.08);
+    --destruct-border: oklch(57.7% 0.245 27.3 / 0.3);
+    --recovery:        #047857;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #050505;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 88px;
+  }
+
+  /* Red radial glow from top-left */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 0% 0%, oklch(57.7% 0.245 27.3 / 0.18) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .brand {
+    position: absolute;
+    top: 52px;
+    right: 60px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 6px;
+    color: rgba(255,255,255,0.2);
+  }
+
+  .problem-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .x-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--destruct-bg);
+    border: 1px solid var(--destruct-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .problem-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--destructive);
+  }
+
+  .mistake {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 114px;
+    line-height: 0.88;
+    color: #fff;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .mistake .red { color: var(--destructive); }
+
+  .consequence {
+    margin-top: 44px;
+    padding: 28px 36px;
+    background: var(--destruct-bg);
+    border: 1px solid var(--destruct-border);
+    border-left: 4px solid var(--destructive);
+    border-radius: 6px;
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+  }
+
+  .consequence-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.5;
+  }
+
+  .consequence-text strong {
+    color: var(--destructive);
+    font-weight: 700;
+  }
+
+  .swipe-cta {
+    position: absolute;
+    bottom: 60px;
+    right: 64px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+
+  .swipe-arrow {
+    width: 32px;
+    height: 1px;
+    background: rgba(255,255,255,0.25);
+    position: relative;
+  }
+
+  .swipe-arrow::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: -3px;
+    border-left: 7px solid rgba(255,255,255,0.25);
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+  }
+
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: var(--destructive);
+  }
+</style>
+</head>
+<body>
+
+<div class="brand" data-param="brand">BLOCKSMITH</div>
+
+<div class="problem-tag">
+  <div class="x-icon">
+    <svg viewBox="0 0 16 16" width="16" height="16" fill="none">
+      <path d="M4 4l8 8M12 4l-8 8" stroke="oklch(57.7% 0.245 27.3)" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="problem-label" data-param="problem_label">Common mistake</div>
+</div>
+
+<div class="mistake" data-param="mistake">TRAINING<br>HARD BUT<br><span class="red">NOT RIGHT</span></div>
+
+<div class="consequence">
+  <div class="consequence-text" data-param="consequence">High volume without HYROX specificity doesn't build race fitness. It builds <strong>fatigue you can't convert</strong> into time on race day.</div>
+</div>
+
+<div class="swipe-cta">
+  <span data-param="swipe_label">Fix it</span>
+  <div class="swipe-arrow"></div>
+</div>
+
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+</script>
+</body>
+</html>
