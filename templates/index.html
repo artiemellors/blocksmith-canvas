@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blocksmith Canvas — Templates</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: oklch(12% 0.01 42);
+    color: oklch(90% 0.005 42);
+    min-height: 100vh;
+    padding: 48px 40px;
+  }
+  header {
+    margin-bottom: 48px;
+  }
+  .wordmark {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: oklch(60% 0.18 42);
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: oklch(96% 0.005 42);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    max-width: 1100px;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: oklch(55% 0.01 42);
+    margin: 32px 0 12px;
+    grid-column: 1 / -1;
+  }
+  a.card {
+    display: block;
+    background: oklch(18% 0.01 42);
+    border: 1px solid oklch(25% 0.01 42);
+    border-radius: 8px;
+    padding: 20px 22px;
+    text-decoration: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  a.card:hover {
+    background: oklch(20% 0.01 42);
+    border-color: oklch(60% 0.18 42 / 0.5);
+  }
+  .card-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: oklch(60% 0.18 42);
+    margin-bottom: 6px;
+  }
+  .card-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: oklch(93% 0.005 42);
+    margin-bottom: 4px;
+  }
+  .card-dim {
+    font-size: 12px;
+    color: oklch(55% 0.01 42);
+    font-family: 'DM Mono', monospace;
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=DM+Mono&display=swap">
+</head>
+<body>
+<header>
+  <div class="wordmark">Blocksmith Canvas</div>
+  <h1>Templates</h1>
+</header>
+
+<div class="grid">
+  <div class="section-label">Single posts — 1080 × 1080</div>
+  <a class="card" href="/templates/single-stat">
+    <div class="card-label">Single</div>
+    <div class="card-name">single-stat</div>
+    <div class="card-dim">Bold stat or data point</div>
+  </a>
+  <a class="card" href="/templates/single-statement">
+    <div class="card-label">Single</div>
+    <div class="card-name">single-statement</div>
+    <div class="card-dim">Opinion or coaching take</div>
+  </a>
+  <a class="card" href="/templates/single-tip">
+    <div class="card-label">Single</div>
+    <div class="card-name">single-tip</div>
+    <div class="card-dim">One actionable tip</div>
+  </a>
+
+  <div class="section-label">Carousel — 1080 × 1080</div>
+  <a class="card" href="/templates/carousel-hook-a">
+    <div class="card-label">Carousel — Hook</div>
+    <div class="card-name">carousel-hook-a</div>
+    <div class="card-dim">Educational breakdown hooks</div>
+  </a>
+  <a class="card" href="/templates/carousel-hook-b">
+    <div class="card-label">Carousel — Hook</div>
+    <div class="card-name">carousel-hook-b</div>
+    <div class="card-dim">Problem / mistake hooks</div>
+  </a>
+  <a class="card" href="/templates/carousel-body">
+    <div class="card-label">Carousel — Body</div>
+    <div class="card-name">carousel-body</div>
+    <div class="card-dim">Body slides (reuse across carousels)</div>
+  </a>
+  <a class="card" href="/templates/carousel-cta">
+    <div class="card-label">Carousel — CTA</div>
+    <div class="card-name">carousel-cta</div>
+    <div class="card-dim">Always the final slide</div>
+  </a>
+
+  <div class="section-label">Reels — 1080 × 1920</div>
+  <a class="card" href="/templates/reel-educational">
+    <div class="card-label">Reel</div>
+    <div class="card-name">reel-educational</div>
+    <div class="card-dim">Step-by-step station breakdowns</div>
+  </a>
+  <a class="card" href="/templates/reel-contrast">
+    <div class="card-label">Reel</div>
+    <div class="card-name">reel-contrast</div>
+    <div class="card-dim">Before / after or wrong / right</div>
+  </a>
+</div>
+
+</body>
+</html>
