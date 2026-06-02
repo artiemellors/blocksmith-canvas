@@ -12,9 +12,10 @@
     --destructive:     oklch(57.7% 0.245 27.3);
     --destruct-bg:     oklch(57.7% 0.245 27.3 / 0.12);
     --destruct-mid:    oklch(57.7% 0.245 27.3 / 0.06);
-    --recovery:        #047857;
-    --recovery-bg:     rgba(4, 120, 87, 0.12);
-    --recovery-mid:    rgba(4, 120, 87, 0.06);
+    --recovery:        oklch(44% 0.13 162);
+    --recovery-bg:     oklch(44% 0.13 162 / 0.12);
+    --recovery-mid:    oklch(44% 0.13 162 / 0.06);
+    --recovery-border: oklch(44% 0.13 162 / 0.25);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -56,14 +57,14 @@
 
   .half-after {
     background: var(--recovery-bg);
-    border-top: 1px solid rgba(4, 120, 87, 0.2);
+    border-top: 1px solid oklch(44% 0.13 162 / 0.2);
   }
 
   .half-after::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 0% 100%, rgba(4, 120, 87, 0.18) 0%, transparent 60%);
+    background: radial-gradient(ellipse 80% 60% at 0% 100%, oklch(44% 0.13 162 / 0.18) 0%, transparent 60%);
     pointer-events: none;
   }
 
@@ -220,7 +221,7 @@
 <!-- After / Right -->
 <div class="half half-after">
   <div class="half-tag">
-    <div class="tag-icon" style="color: #047857;">✓</div>
+    <div class="tag-icon after-color">✓</div>
     <div class="tag-label after-color" data-param="after_label">With Blocksmith</div>
   </div>
   <div class="half-value after-value" data-param="after_value">15:53</div>
