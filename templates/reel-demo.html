@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Reel Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber:        oklch(60% 0.18 42);
+    --amber-bg:     oklch(60% 0.18 42 / 0.12);
+    --amber-border: oklch(60% 0.18 42 / 0.30);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1920px;
+    overflow: hidden;
+    background: #050505;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Hero image — top 58% of frame */
+  .media-hero {
+    position: relative;
+    height: 1112px;
+    flex-shrink: 0;
+    background: #111;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+  }
+
+  /* Bottom fade from hero into dark panel */
+  .media-hero::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 400px;
+    background: linear-gradient(180deg, transparent 0%, oklch(2% 0 0 / 0.95) 100%);
+  }
+
+  /* Station badge — overlaid top-left of hero */
+  .station-badge {
+    position: absolute;
+    top: 72px;
+    left: 72px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .station-pip {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+
+  .station-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    letter-spacing: 6px;
+    color: var(--amber);
+  }
+
+  /* Move name — bottom of hero, overlaid */
+  .move-name {
+    position: absolute;
+    bottom: 48px;
+    left: 72px;
+    right: 72px;
+    z-index: 2;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 124px;
+    line-height: 0.88;
+    color: #fff;
+    letter-spacing: 2px;
+  }
+
+  /* Content panel below hero */
+  .content-panel {
+    flex: 1;
+    padding: 52px 72px 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .cue-block {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+  }
+
+  .cue-rule {
+    width: 4px;
+    background: var(--amber);
+    border-radius: 2px;
+    flex-shrink: 0;
+    align-self: stretch;
+    min-height: 80px;
+  }
+
+  .cue-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cue-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+
+  .cue-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    line-height: 0.88;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+
+  /* Caption at the very bottom */
+  .caption {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 38px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.50);
+    line-height: 1.55;
+    max-width: 860px;
+  }
+
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--amber);
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+
+<div class="media-hero" id="bg">
+  <div class="station-badge">
+    <div class="station-pip"></div>
+    <div class="station-text" data-param="station">SKI ERG</div>
+  </div>
+  <div class="move-name" data-param="move">THE CATCH<br>POSITION</div>
+</div>
+
+<div class="content-panel">
+  <div class="cue-block">
+    <div class="cue-rule"></div>
+    <div class="cue-inner">
+      <div class="cue-label">KEY CUE</div>
+      <div class="cue-text" data-param="cue">ARMS ABOVE<br>YOUR EARS</div>
+    </div>
+  </div>
+
+  <div class="caption" data-param="caption">If your hands are level with your temples at the catch, you've already lost 20% of your pull. Reach overhead, pause, then drive.</div>
+</div>
+
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+  const bgUrl = p.get('bg_image');
+  if (bgUrl) document.getElementById('bg').style.backgroundImage = `url(${bgUrl})`;
+</script>
+</body>
+</html>

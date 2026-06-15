@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Single Cue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber:        oklch(60% 0.18 42);
+    --amber-bg:     oklch(60% 0.18 42 / 0.10);
+    --amber-border: oklch(60% 0.18 42 / 0.25);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #050505;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 88px;
+  }
+
+  /* Full-bleed background image */
+  .bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center right;
+    z-index: 0;
+  }
+
+  /* Gradient: opaque black on left for text, fades to dark on right */
+  .bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      oklch(2% 0 0 / 0.97) 0%,
+      oklch(2% 0 0 / 0.92) 35%,
+      oklch(2% 0 0 / 0.65) 60%,
+      oklch(2% 0 0 / 0.35) 100%
+    );
+  }
+
+  .station {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 7px;
+    color: var(--amber);
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cue {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 96px;
+    line-height: 0.9;
+    color: #fff;
+    letter-spacing: 1px;
+    max-width: 620px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .why-wrapper {
+    display: flex;
+    gap: 24px;
+    margin-top: 52px;
+    max-width: 560px;
+    position: relative;
+    z-index: 1;
+    align-items: flex-start;
+  }
+
+  .why-rule {
+    width: 4px;
+    background: var(--amber);
+    border-radius: 2px;
+    flex-shrink: 0;
+    align-self: stretch;
+    min-height: 60px;
+  }
+
+  .why-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .why-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+
+  .why-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.45;
+  }
+
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--amber);
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg" id="bg"></div>
+
+<div class="station" data-param="station">STATION 06 — WALLBALLS</div>
+
+<div class="cue" data-param="cue">ELBOWS HIGH<br>ON THE CATCH</div>
+
+<div class="why-wrapper">
+  <div class="why-rule"></div>
+  <div class="why-content">
+    <div class="why-label">WHY</div>
+    <div class="why-text" data-param="why">Dropping your elbows breaks the elastic return. You're doing twice the work for half the output.</div>
+  </div>
+</div>
+
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+  const bgUrl = p.get('bg_image');
+  if (bgUrl) document.getElementById('bg').style.backgroundImage = `url(${bgUrl})`;
+</script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — VS Split</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber:       oklch(60% 0.18 42);
+    --amber-bg:    oklch(60% 0.18 42 / 0.12);
+    --destructive: oklch(57.7% 0.245 27.3);
+    --dest-bg:     oklch(57.7% 0.245 27.3 / 0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #080808;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Topic bar */
+  .topic-bar {
+    padding: 48px 72px 0;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    z-index: 2;
+    position: relative;
+  }
+
+  .topic-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.30);
+  }
+
+  .topic-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* Split panels */
+  .panels {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    margin-top: 40px;
+  }
+
+  /* Center divider */
+  .panels::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(255,255,255,0.12) 20%,
+      rgba(255,255,255,0.12) 80%,
+      transparent 100%
+    );
+    transform: translateX(-50%);
+    z-index: 3;
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    padding: 44px 56px 72px;
+    position: relative;
+  }
+
+  .panel-dont {
+    background: var(--dest-bg);
+  }
+
+  .panel-do {
+    background: var(--amber-bg);
+  }
+
+  .verdict {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+
+  .verdict-icon {
+    font-size: 32px;
+    line-height: 1;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .verdict-dont .verdict-icon { color: var(--destructive); }
+  .verdict-do   .verdict-icon { color: var(--amber); }
+
+  .verdict-word {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    letter-spacing: 6px;
+  }
+
+  .verdict-dont .verdict-word { color: var(--destructive); }
+  .verdict-do   .verdict-word { color: var(--amber); }
+
+  .panel-cue {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    line-height: 0.88;
+    letter-spacing: 1px;
+    color: #fff;
+    flex: 1;
+  }
+
+  .panel-detail {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-top: 28px;
+  }
+
+  .panel-dont .panel-detail { color: oklch(57.7% 0.245 27.3 / 0.75); }
+  .panel-do   .panel-detail { color: oklch(60% 0.18 42 / 0.80); }
+
+  /* Bottom strip */
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--destructive) 0%, var(--destructive) 50%, var(--amber) 50%, var(--amber) 100%);
+    z-index: 4;
+  }
+</style>
+</head>
+<body>
+
+<div class="topic-bar">
+  <div class="topic-label">TECHNIQUE</div>
+  <div class="topic-text" data-param="topic">SKI ERG PULL</div>
+</div>
+
+<div class="panels">
+
+  <div class="panel panel-dont verdict-dont">
+    <div class="verdict">
+      <span class="verdict-icon">✕</span>
+      <span class="verdict-word">DON'T</span>
+    </div>
+    <div class="panel-cue" data-param="dont_cue">ARMS ONLY</div>
+    <div class="panel-detail" data-param="dont_detail">Pulling with your arms alone burns them out by 200m. Nothing left for the run.</div>
+  </div>
+
+  <div class="panel panel-do verdict-do">
+    <div class="verdict">
+      <span class="verdict-icon">✓</span>
+      <span class="verdict-word">DO</span>
+    </div>
+    <div class="panel-cue" data-param="do_cue">HINGE &amp; LOAD</div>
+    <div class="panel-detail" data-param="do_detail">Drive the hinge from your hips first. Arms just transmit power — they don't create it.</div>
+  </div>
+
+</div>
+
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+</script>
+</body>
+</html>

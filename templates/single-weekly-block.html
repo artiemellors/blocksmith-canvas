@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Weekly Block</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber:        oklch(60% 0.18 42);
+    --amber-bg:     oklch(60% 0.18 42 / 0.08);
+    --amber-border: oklch(60% 0.18 42 / 0.22);
+    --line:         oklch(100% 0 0 / 0.06);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: oklch(7% 0.005 42);
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 72px 88px 80px;
+  }
+
+  /* Subtle dot grid */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(oklch(100% 0 0 / 0.04) 1px, transparent 1px);
+    background-size: 36px 36px;
+    pointer-events: none;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 52px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .week-pill {
+    background: var(--amber-bg);
+    border: 1px solid var(--amber-border);
+    border-radius: 4px;
+    padding: 8px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    color: var(--amber);
+  }
+
+  .block-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 86px;
+    line-height: 0.88;
+    color: #fff;
+    letter-spacing: 1px;
+    text-align: right;
+    max-width: 580px;
+  }
+
+  /* Session list */
+  .sessions {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+  }
+
+  .session {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 32px;
+    align-items: center;
+    padding: 22px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .session:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .session-day {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.30);
+  }
+
+  .session-content {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.2;
+  }
+
+  .session-content .tag {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--amber);
+    background: var(--amber-bg);
+    border-radius: 3px;
+    padding: 2px 10px;
+    margin-left: 12px;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+  }
+
+  /* Footer note */
+  .note {
+    margin-top: 32px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .note-rule {
+    width: 28px;
+    height: 2px;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+
+  .note-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.4;
+  }
+
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--amber);
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="week-pill" data-param="week_label">WEEK 08</div>
+  <div class="block-title" data-param="block_title">RACE<br>SIMULATION</div>
+</div>
+
+<div class="sessions" id="sessions">
+  <div class="session">
+    <div class="session-day">MON</div>
+    <div class="session-content" data-param="session_1">Ski Erg intervals <span class="tag">SPEED</span></div>
+  </div>
+  <div class="session">
+    <div class="session-day">WED</div>
+    <div class="session-content" data-param="session_2">Full HYROX sim — 60% effort</div>
+  </div>
+  <div class="session">
+    <div class="session-day">FRI</div>
+    <div class="session-content" data-param="session_3">Wall Balls + Farmers carry <span class="tag">STRENGTH</span></div>
+  </div>
+  <div class="session">
+    <div class="session-day">SUN</div>
+    <div class="session-content" data-param="session_4">Long run — aerobic base</div>
+  </div>
+</div>
+
+<div class="note">
+  <div class="note-rule"></div>
+  <div class="note-text" data-param="note">Keep heart rate below 155 on the Sunday run. We protect the base this week.</div>
+</div>
+
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+</script>
+</body>
+</html>

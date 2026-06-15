@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Athlete Result</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber:        oklch(60% 0.18 42);
+    --amber-bg:     oklch(60% 0.18 42 / 0.10);
+    --amber-border: oklch(60% 0.18 42 / 0.30);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #050505;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+  }
+
+  /* Full-bleed background image */
+  .bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  /* Strong bottom-to-top gradient so text always reads */
+  .bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      oklch(2% 0 0 / 0.30) 0%,
+      oklch(2% 0 0 / 0.50) 35%,
+      oklch(2% 0 0 / 0.88) 62%,
+      oklch(2% 0 0 / 0.97) 100%
+    );
+  }
+
+  /* Content sits over the overlay */
+  .content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 88px 80px;
+    z-index: 1;
+  }
+
+  /* Event badge */
+  .event-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--amber-bg);
+    border: 1px solid var(--amber-border);
+    border-radius: 4px;
+    padding: 8px 20px;
+    margin-bottom: 28px;
+  }
+
+  .event-badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+
+  .event-badge-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+
+  /* Result — the hero number */
+  .result {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 180px;
+    line-height: 0.85;
+    color: #fff;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+  }
+
+  .result-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 40px;
+  }
+
+  /* Quote */
+  .quote {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 40px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.45;
+    max-width: 780px;
+    margin-bottom: 44px;
+    font-style: italic;
+  }
+
+  /* Athlete footer */
+  .athlete-footer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .athlete-rule {
+    width: 36px;
+    height: 3px;
+    background: var(--amber);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .athlete-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--amber);
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg" id="bg"></div>
+
+<div class="content">
+  <div class="event-badge">
+    <div class="event-badge-dot"></div>
+    <div class="event-badge-text" data-param="event">HYROX SYDNEY 2025</div>
+  </div>
+
+  <div class="result" data-param="result">1:04:32</div>
+  <div class="result-label" data-param="result_label">FINISH TIME — PRO WOMEN</div>
+
+  <div class="quote" data-param="quote">"The wall balls broke everyone else. We trained for that exact moment."</div>
+
+  <div class="athlete-footer">
+    <div class="athlete-rule"></div>
+    <div class="athlete-name" data-param="athlete_name">SARAH CHEN</div>
+  </div>
+</div>
+
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+  const bgUrl = p.get('bg_image');
+  if (bgUrl) document.getElementById('bg').style.backgroundImage = `url(${bgUrl})`;
+</script>
+</body>
+</html>
