@@ -80,17 +80,18 @@
     flex: 1;
   }
 
+  .sessions {
+    border-bottom: 1px solid var(--line);
+  }
+
   .session {
     display: grid;
     grid-template-columns: 160px 1fr;
     gap: 32px;
     align-items: center;
-    padding: 22px 0;
+    flex: 1;
+    min-height: 0;
     border-top: 1px solid var(--line);
-  }
-
-  .session:last-child {
-    border-bottom: 1px solid var(--line);
   }
 
   .session-day {
@@ -186,6 +187,14 @@
     <div class="session-day">SUN</div>
     <div class="session-content" data-param="session_4">Long run — aerobic base</div>
   </div>
+  <div class="session" id="session-row-5" style="display:none">
+    <div class="session-day" data-param="session_5_day">—</div>
+    <div class="session-content" data-param="session_5"></div>
+  </div>
+  <div class="session" id="session-row-6" style="display:none">
+    <div class="session-day" data-param="session_6_day">—</div>
+    <div class="session-content" data-param="session_6"></div>
+  </div>
 </div>
 
 <div class="note">
@@ -200,6 +209,11 @@
   document.querySelectorAll('[data-param]').forEach(el => {
     const v = p.get(el.dataset.param);
     if (v) el.innerHTML = v;
+  });
+  ['5', '6'].forEach(n => {
+    if (p.get('session_' + n)) {
+      document.getElementById('session-row-' + n).style.display = '';
+    }
   });
 </script>
 </body>
