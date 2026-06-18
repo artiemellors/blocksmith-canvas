@@ -254,6 +254,7 @@
 
 <script>
   const p = new URLSearchParams(location.search);
+  if (p.get('transparent') === '1') document.body.style.background = 'transparent';
 
   // Inject params
   document.querySelectorAll('[data-param]').forEach(el => {

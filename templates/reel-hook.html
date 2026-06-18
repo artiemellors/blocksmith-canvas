@@ -157,6 +157,7 @@
 
 <script>
   const p = new URLSearchParams(location.search);
+  if (p.get('transparent') === '1') document.body.style.background = 'transparent';
   document.querySelectorAll('[data-param]').forEach(el => {
     const v = p.get(el.dataset.param);
     if (v) el.innerHTML = v;
