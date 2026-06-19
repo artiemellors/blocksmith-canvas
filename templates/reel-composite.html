@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Reel Composite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber: oklch(60% 0.18 42);
+    --total-duration: 10s;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1920px;
+    background: #050505;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── Background video ────────────────────────────────────────── */
+  #bg-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  /* ── Dark tint overlay for legibility ───────────────────────── */
+  .bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ── Shared frame styles ─────────────────────────────────────── */
+  .frame {
+    position: absolute;
+    inset: 0;
+    padding: 0 88px;
+    opacity: 0;
+    z-index: 2;
+  }
+
+  /* ── Frame 1 — Hook ──────────────────────────────────────────── */
+  .frame1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 760px; /* positions content in top 60% */
+    animation: f1 var(--total-duration) ease-in-out forwards;
+  }
+
+  .frame1 .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 28px;
+  }
+
+  .frame1 .title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 132px;
+    line-height: 0.9;
+    color: #fff;
+    letter-spacing: 1px;
+    word-break: break-word;
+    margin-bottom: 40px;
+  }
+
+  .frame1 .sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.45;
+    max-width: 800px;
+  }
+
+  /* ── Frame 2 — Body 1 ────────────────────────────────────────── */
+  .frame2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: f2 var(--total-duration) ease-in-out forwards;
+  }
+
+  .frame2 .label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 48px;
+  }
+
+  .frame2 .body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 52px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.35;
+    max-width: 880px;
+  }
+
+  .frame2 .body strong {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  /* ── Frame 3 — Body 2 ────────────────────────────────────────── */
+  .frame3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: f3 var(--total-duration) ease-in-out forwards;
+  }
+
+  .frame3 .label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 48px;
+  }
+
+  .frame3 .body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 52px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.35;
+    max-width: 880px;
+  }
+
+  .frame3 .body strong {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  /* ── Frame 4 — CTA ───────────────────────────────────────────── */
+  .frame4 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: f4 var(--total-duration) ease-in-out forwards;
+  }
+
+  .frame4 .cta {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 108px;
+    line-height: 0.92;
+    color: #fff;
+    letter-spacing: 1px;
+    word-break: break-word;
+    margin-bottom: 40px;
+  }
+
+  .frame4 .sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 38px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.4;
+    max-width: 800px;
+    margin-bottom: 56px;
+  }
+
+  .frame4 .url {
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: var(--amber);
+  }
+
+  /* ── Bottom bar — always on top ──────────────────────────────── */
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--amber);
+    z-index: 10;
+  }
+
+  /* ── CSS keyframe animations ─────────────────────────────────── */
+  /*
+   * Timing formula (for arbitrary total_duration D, 4 frames):
+   *   frame_slot  = D / 4  (e.g. 2.5s each for D=10)
+   *   fade_dur    = 0.4s
+   *
+   * Percentages are computed as: time / D × 100
+   *
+   * Frame 1: in 0→0.4s (0%→4%), hold to 2.5s (25%), out 2.5→2.9s (25%→29%)
+   * Frame 2: in 2.5→2.9s (25%→29%), hold to 5s (50%), out 5→5.4s (50%→54%)
+   * Frame 3: in 5→5.4s (50%→54%), hold to 7.5s (75%), out 7.5→7.9s (75%→79%)
+   * Frame 4: in 7.5→7.9s (75%→79%), stays visible to end
+   *
+   * Note: These are fixed at 4% increments matching the 0.4s/10s ratio.
+   * When total_duration changes via CSS var, the animation duration scales,
+   * preserving the same percentage-based timing ratios automatically.
+   */
+
+  @keyframes f1 {
+    0%   { opacity: 0; }
+    4%   { opacity: 1; }
+    25%  { opacity: 1; }
+    29%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  @keyframes f2 {
+    0%   { opacity: 0; }
+    25%  { opacity: 0; }
+    29%  { opacity: 1; }
+    50%  { opacity: 1; }
+    54%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  @keyframes f3 {
+    0%   { opacity: 0; }
+    50%  { opacity: 0; }
+    54%  { opacity: 1; }
+    75%  { opacity: 1; }
+    79%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  @keyframes f4 {
+    0%   { opacity: 0; }
+    75%  { opacity: 0; }
+    79%  { opacity: 1; }
+    100% { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<video id="bg-video" autoplay muted loop playsinline></video>
+<div class="bg-overlay"></div>
+
+<!-- Frame 1: Hook -->
+<div class="frame frame1">
+  <div class="eyebrow" data-param="frame1_eyebrow">ZONE 2</div>
+  <div class="title" data-param="frame1_title">THE BORING<br>STUFF WINS</div>
+  <div class="sub" data-param="frame1_sub">Most athletes drift to Zone 3 and call it aerobic work. Here's why that's costing you.</div>
+</div>
+
+<!-- Frame 2: Body 1 -->
+<div class="frame frame2">
+  <div class="label" data-param="frame2_label">THE MECHANISM</div>
+  <div class="body" data-param="frame2_body">Zone 2 clears lactate <strong>and</strong> builds your aerobic base at the same time.</div>
+</div>
+
+<!-- Frame 3: Body 2 -->
+<div class="frame frame3">
+  <div class="label" data-param="frame3_label">THE PROOF</div>
+  <div class="body" data-param="frame3_body">8 weeks of polarized training: <strong>5–10 BPM</strong> resting HR drop.</div>
+</div>
+
+<!-- Frame 4: CTA -->
+<div class="frame frame4">
+  <div class="cta" data-param="frame4_cta">BUILD YOUR<br>ZONE 2 PLAN</div>
+  <div class="sub" data-param="frame4_sub">First block free. No card required.</div>
+  <div class="url" data-param="frame4_url">blocksmith.training</div>
+</div>
+
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+
+  // Set --total-duration CSS variable from param (default 10s)
+  const totalDuration = parseFloat(p.get('total_duration') || '10');
+  document.documentElement.style.setProperty('--total-duration', totalDuration + 's');
+
+  // Set video source if provided
+  const videoUrl = p.get('bg_video_url');
+  if (videoUrl) {
+    const v = document.getElementById('bg-video');
+    v.src = videoUrl;
+    v.addEventListener('loadeddata', () => v.play().catch(() => {}));
+  }
+
+  // Inject params into [data-param] elements
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+
+  // Signal readiness if record_signal=1
+  if (p.get('record_signal') === '1') {
+    document.body.setAttribute('data-ready', '1');
+  }
+</script>
+</body>
+</html>
