@@ -9,7 +9,6 @@
 <style>
   :root {
     --amber: oklch(60% 0.18 42);
-    --total-duration: 10s;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -57,7 +56,6 @@
     flex-direction: column;
     justify-content: flex-end;
     padding-bottom: 760px; /* positions content in top 60% */
-    animation: f1 var(--total-duration) ease-in-out forwards;
   }
 
   .frame1 .eyebrow {
@@ -94,7 +92,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    animation: f2 var(--total-duration) ease-in-out forwards;
   }
 
   .frame2 .label {
@@ -126,7 +123,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    animation: f3 var(--total-duration) ease-in-out forwards;
   }
 
   .frame3 .label {
@@ -158,7 +154,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    animation: f4 var(--total-duration) ease-in-out forwards;
   }
 
   .frame4 .cta {
@@ -200,61 +195,12 @@
     z-index: 10;
   }
 
-  /* ── CSS keyframe animations ─────────────────────────────────── */
-  /*
-   * Timing formula (for arbitrary total_duration D, 4 frames):
-   *   frame_slot  = D / 4  (e.g. 2.5s each for D=10)
-   *   fade_dur    = 0.4s
-   *
-   * Percentages are computed as: time / D × 100
-   *
-   * Frame 1: in 0→0.4s (0%→4%), hold to 2.5s (25%), out 2.5→2.9s (25%→29%)
-   * Frame 2: in 2.5→2.9s (25%→29%), hold to 5s (50%), out 5→5.4s (50%→54%)
-   * Frame 3: in 5→5.4s (50%→54%), hold to 7.5s (75%), out 7.5→7.9s (75%→79%)
-   * Frame 4: in 7.5→7.9s (75%→79%), stays visible to end
-   *
-   * Note: These are fixed at 4% increments matching the 0.4s/10s ratio.
-   * When total_duration changes via CSS var, the animation duration scales,
-   * preserving the same percentage-based timing ratios automatically.
-   */
-
-  @keyframes f1 {
-    0%   { opacity: 0; }
-    4%   { opacity: 1; }
-    25%  { opacity: 1; }
-    29%  { opacity: 0; }
-    100% { opacity: 0; }
-  }
-
-  @keyframes f2 {
-    0%   { opacity: 0; }
-    25%  { opacity: 0; }
-    29%  { opacity: 1; }
-    50%  { opacity: 1; }
-    54%  { opacity: 0; }
-    100% { opacity: 0; }
-  }
-
-  @keyframes f3 {
-    0%   { opacity: 0; }
-    50%  { opacity: 0; }
-    54%  { opacity: 1; }
-    75%  { opacity: 1; }
-    79%  { opacity: 0; }
-    100% { opacity: 0; }
-  }
-
-  @keyframes f4 {
-    0%   { opacity: 0; }
-    75%  { opacity: 0; }
-    79%  { opacity: 1; }
-    100% { opacity: 1; }
-  }
+  /* Animations are applied via Web Animations API in JS (dynamic frame count) */
 </style>
 </head>
 <body>
 
-<video id="bg-video" autoplay muted loop playsinline></video>
+<video id="bg-video" autoplay muted playsinline></video>
 <div class="bg-overlay"></div>
 
 <!-- Frame 1: Hook -->
@@ -288,27 +234,92 @@
 <script>
   const p = new URLSearchParams(location.search);
 
-  // Set --total-duration CSS variable from param (default 10s)
-  const totalDuration = parseFloat(p.get('total_duration') || '10');
-  document.documentElement.style.setProperty('--total-duration', totalDuration + 's');
-
-  // Set video source if provided
+  // Set video source
   const videoUrl = p.get('bg_video_url');
   if (videoUrl) {
     const v = document.getElementById('bg-video');
     v.src = videoUrl;
-    v.addEventListener('loadeddata', () => v.play().catch(() => {}));
+    // Don't loop — recording duration matches video duration
+    v.loop = false;
   }
 
   // Inject params into [data-param] elements
   document.querySelectorAll('[data-param]').forEach(el => {
-    const v = p.get(el.dataset.param);
-    if (v) el.innerHTML = v;
+    const val = p.get(el.dataset.param);
+    if (val) el.innerHTML = val;
   });
 
-  // Signal readiness if record_signal=1
-  if (p.get('record_signal') === '1') {
-    document.body.setAttribute('data-ready', '1');
+  // Detect which frames have content
+  const frameHasContent = (n) => {
+    const checkParams = {
+      1: ['frame1_title', 'frame1_eyebrow', 'frame1_sub'],
+      2: ['frame2_label', 'frame2_body'],
+      3: ['frame3_label', 'frame3_body'],
+      4: ['frame4_cta', 'frame4_sub'],
+    }[n];
+    return checkParams.some(k => p.get(k));
+  };
+
+  const visibleFrames = [1, 2, 3, 4].filter(frameHasContent);
+
+  // If no frames declared (no params), default to all 4 (template preview mode)
+  if (visibleFrames.length === 0) {
+    visibleFrames.push(1, 2, 3, 4);
+  }
+
+  // Hide non-visible frames
+  [1, 2, 3, 4].forEach(n => {
+    if (!visibleFrames.includes(n)) {
+      const el = document.querySelector(`.frame${n}`);
+      if (el) el.style.display = 'none';
+    }
+  });
+
+  // Calculate per-frame timing
+  const totalDuration = parseFloat(p.get('total_duration') || '10');
+  const totalMs = totalDuration * 1000;
+  const n = visibleFrames.length;
+  const slotMs = totalMs / n;
+  const fadeMs = 400; // 0.4s fade
+
+  // Animate each visible frame
+  visibleFrames.forEach((frameNum, idx) => {
+    const el = document.querySelector(`.frame${frameNum}`);
+    if (!el) return;
+    const startMs = idx * slotMs;
+    const endMs = (idx + 1) * slotMs;
+
+    // For the LAST frame, don't fade out — let it hold to the end
+    const isLast = (idx === n - 1);
+
+    const keyframes = [
+      { opacity: 0, offset: 0 },
+      { opacity: 0, offset: startMs / totalMs },
+      { opacity: 1, offset: Math.min((startMs + fadeMs) / totalMs, 1) },
+    ];
+
+    if (isLast) {
+      keyframes.push({ opacity: 1, offset: 1 });
+    } else {
+      keyframes.push(
+        { opacity: 1, offset: Math.min((endMs - fadeMs) / totalMs, 1) },
+        { opacity: 0, offset: endMs / totalMs },
+        { opacity: 0, offset: 1 }
+      );
+    }
+
+    el.animate(keyframes, {
+      duration: totalMs,
+      fill: 'forwards',
+      easing: 'ease-in-out',
+    });
+  });
+
+  // Start video playback once metadata is loaded (autoplay should handle this,
+  // but explicit play covers some edge cases)
+  const video = document.querySelector('video');
+  if (video) {
+    video.addEventListener('loadeddata', () => video.play().catch(() => {}));
   }
 </script>
 </body>
