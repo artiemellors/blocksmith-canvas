@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Carousel Quote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber: oklch(60% 0.18 42);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #050505;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 88px;
+  }
+
+  /* Full-bleed background image */
+  .bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  /* Radial dim plus vertical heaviness so quote sits in focused warmth */
+  .bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at center, oklch(2% 0 0 / 0.65) 0%, oklch(2% 0 0 / 0.92) 75%),
+      linear-gradient(180deg, oklch(2% 0 0 / 0.50) 0%, oklch(2% 0 0 / 0.85) 100%);
+  }
+
+  .brand {
+    position: absolute;
+    top: 52px;
+    left: 88px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 6px;
+    color: rgba(255,255,255,0.35);
+    z-index: 2;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .quote-mark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 220px;
+    line-height: 0.7;
+    color: var(--amber);
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+    opacity: 0.85;
+  }
+
+  .quote {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 84px;
+    line-height: 0.95;
+    color: #fff;
+    letter-spacing: 0.5px;
+    max-width: 880px;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.5);
+  }
+
+  .quote .amber { color: var(--amber); }
+
+  .attribution-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 56px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .attribution-rule {
+    width: 56px;
+    height: 2px;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+
+  .attribution-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .attribution-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+
+  .attribution-context {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-top: 6px;
+  }
+
+  .swipe-cta {
+    position: absolute;
+    bottom: 60px;
+    right: 64px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    z-index: 2;
+  }
+
+  .swipe-arrow {
+    width: 28px;
+    height: 1px;
+    background: rgba(255,255,255,0.4);
+    position: relative;
+  }
+
+  .swipe-arrow::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: -3px;
+    border-left: 7px solid rgba(255,255,255,0.4);
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+  }
+
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: rgba(255,255,255,0.10);
+    z-index: 2;
+  }
+
+  .bottom-bar-fill {
+    height: 100%;
+    background: var(--amber);
+    width: 60%;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg" id="bg"></div>
+
+<div class="brand" data-param="brand">BLOCKSMITH</div>
+
+<div class="eyebrow" data-param="eyebrow">MENTOR</div>
+<div class="quote-mark">&ldquo;</div>
+<div class="quote" data-param="quote">YOU DON'T<br>RISE TO THE<br>OCCASION —<br>YOU FALL TO<br>YOUR <span class="amber">TRAINING</span>.</div>
+
+<div class="attribution-row">
+  <div class="attribution-rule"></div>
+  <div class="attribution-text">
+    <div class="attribution-name" data-param="attribution_name">Archilochus</div>
+    <div class="attribution-context" data-param="attribution_context">via Greek lyric tradition</div>
+  </div>
+</div>
+
+<div class="swipe-cta">
+  <span data-param="swipe_label">Next</span>
+  <div class="swipe-arrow"></div>
+</div>
+
+<div class="bottom-bar">
+  <div class="bottom-bar-fill" id="progress"></div>
+</div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+  const prog = p.get('progress');
+  if (prog) document.getElementById('progress').style.width = prog;
+  const bgUrl = p.get('bg_image');
+  if (bgUrl) document.getElementById('bg').style.backgroundImage = `url(${bgUrl})`;
+</script>
+</body>
+</html>

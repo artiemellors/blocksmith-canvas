@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocksmith — Carousel Hook BG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber: oklch(60% 0.18 42);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #050505;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 80px 88px 120px;
+  }
+
+  /* Full-bleed background image */
+  .bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  /* Vertical gradient: bg visible at top, opaque dark behind text */
+  .bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      oklch(2% 0 0 / 0.45) 0%,
+      oklch(2% 0 0 / 0.65) 35%,
+      oklch(2% 0 0 / 0.88) 65%,
+      oklch(2% 0 0 / 0.95) 100%
+    );
+  }
+
+  .brand {
+    position: absolute;
+    top: 52px;
+    right: 60px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 6px;
+    color: rgba(255,255,255,0.4);
+    z-index: 2;
+  }
+
+  .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hook {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    line-height: 0.88;
+    color: #fff;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.4);
+  }
+
+  .hook .amber { color: var(--amber); }
+  .hook .muted { color: rgba(255,255,255,0.4); }
+
+  .sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 48px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+    margin-top: 36px;
+    max-width: 720px;
+    line-height: 1.45;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+  }
+
+  .swipe-cta {
+    position: absolute;
+    bottom: 60px;
+    right: 64px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    z-index: 2;
+  }
+
+  .swipe-arrow {
+    width: 32px;
+    height: 1px;
+    background: rgba(255,255,255,0.5);
+    position: relative;
+  }
+
+  .swipe-arrow::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: -3px;
+    border-left: 7px solid rgba(255,255,255,0.5);
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+  }
+
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--amber);
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg" id="bg"></div>
+
+<div class="brand" data-param="brand">BLOCKSMITH</div>
+<div class="eyebrow" data-param="eyebrow">RACE DAY</div>
+<div class="hook" data-param="hook">THE RACE<br>STARTS BEFORE<br><span class="amber">THE GUN</span></div>
+<div class="sub" data-param="sub">Your warm-up decides the first 8 minutes of your race. Get it wrong and you're behind before the SkiErg.</div>
+
+<div class="swipe-cta">
+  <span data-param="swipe_label">Swipe</span>
+  <div class="swipe-arrow"></div>
+</div>
+
+<div class="bottom-bar"></div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  document.querySelectorAll('[data-param]').forEach(el => {
+    const v = p.get(el.dataset.param);
+    if (v) el.innerHTML = v;
+  });
+  const bgUrl = p.get('bg_image');
+  if (bgUrl) document.getElementById('bg').style.backgroundImage = `url(${bgUrl})`;
+</script>
+</body>
+</html>
